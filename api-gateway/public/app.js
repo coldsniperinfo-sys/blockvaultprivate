@@ -211,6 +211,7 @@ navigator.mediaDevices?.addEventListener?.("devicechange", populateCameras);
 // -------------------------------
 
 let lastError = "none";
+let incidentPollTimer = null;
 function setError(msg) {
   lastError = msg || "none";
   errText.textContent = lastError;
@@ -295,8 +296,83 @@ function dotFor(i) {
   return "bg-emerald-400";
 }
 
+function faceStatusFor(i) {
+  const faceAnalysis = i?.meta && typeof i.meta === "object" ? i.meta.faceAnalysis : null;
+  const decision = faceAnalysis && typeof faceAnalysis === "object" ? String(faceAnalysis.frDecision || "") : "";
+
+  if (i.analysisStatus === "PENDING") {
+    return {
+      label: "FR: PENDING",
+      className: "border-amber-500/40 bg-amber-500/10 text-amber-200",
+      detail: "Face analysis queued"
+    };
+  }
+
+  if (i.analysisStatus === "FAILED") {
+    return {
+      label: "FR: FAILED",
+      className: "border-red-500/40 bg-red-500/10 text-red-200",
+      detail: faceAnalysis && typeof faceAnalysis.error === "string" ? faceAnalysis.error : "Face analysis failed"
+    };
+  }
+
+  if (decision === "ALLOW") {
+    return {
+      label: "FR: ALLOW",
+      className: "border-emerald-500/40 bg-emerald-500/10 text-emerald-200",
+      detail: "Authorized face matched"
+    };
+  }
+
+  if (decision === "UNKNOWN") {
+    return {
+      label: "FR: UNKNOWN",
+      className: "border-amber-500/40 bg-amber-500/10 text-amber-200",
+      detail: "Face detected but no authorized match"
+    };
+  }
+
+  if (decision === "NO_FACE") {
+    return {
+      label: "FR: NO_FACE",
+      className: "border-slate-700/70 bg-slate-900/60 text-slate-200",
+      detail: "No face detected in evidence"
+    };
+  }
+
+  return {
+    label: "FR: N/A",
+    className: "border-slate-700/70 bg-slate-900/60 text-slate-200",
+    detail: "Face analysis not available"
+  };
+}
+
+function faceSummaryText(i) {
+  const faceAnalysis = i?.meta && typeof i.meta === "object" ? i.meta.faceAnalysis : null;
+  const bestMatch = faceAnalysis && typeof faceAnalysis === "object" ? faceAnalysis.bestMatch : null;
+  const bestMatchId = bestMatch && typeof bestMatch.id === "string" ? bestMatch.id : "";
+
+  if (bestMatchId) {
+    const score = bestMatch && typeof bestMatch.score === "number" ? bestMatch.score.toFixed(3) : "n/a";
+    return `Best match: ${bestMatchId} (${score})`;
+  }
+
+  return faceStatusFor(i).detail;
+}
+
+function scheduleIncidentPolling(hasPending) {
+  if (incidentPollTimer) clearTimeout(incidentPollTimer);
+  incidentPollTimer = setTimeout(() => {
+    refreshIncidents().catch((err) => {
+      console.error(err);
+      setError(err?.message || String(err));
+    });
+  }, hasPending ? 2500 : 7000);
+}
+
 async function refreshIncidents() {
-  incidentsEl.innerHTML = `<div class="text-slate-400 text-sm">Loading…</div>`;
+  let hasPending = false;
+  incidentsEl.innerHTML = `<div class="text-slate-400 text-sm">Loading...</div>`;
   try {
     const r = await fetch("/api/incidents", { cache: "no-store" });
     const list = await r.json();
@@ -304,12 +380,21 @@ async function refreshIncidents() {
 
     list.sort((a, b) => String(b.ts || "").localeCompare(String(a.ts || "")));
     countEl.textContent = String(list.length);
+    hasPending = list.some((i) => i.analysisStatus === "PENDING");
 
     incidentsEl.innerHTML = list.length
       ? list.map((i) => {
           const ts = i.ts ? new Date(i.ts).toLocaleString() : "";
           const badge = badgeFor(i);
           const dot = dotFor(i);
+          const faceStatus = faceStatusFor(i);
+          const faceSummary = faceSummaryText(i);
+          const faceAnalysis = i.meta && typeof i.meta === "object" ? i.meta.faceAnalysis : null;
+          const bestMatch = faceAnalysis && typeof faceAnalysis === "object" ? faceAnalysis.bestMatch : null;
+          const bestMatchId = bestMatch && typeof bestMatch.id === "string" ? bestMatch.id : "";
+          const bestMatchScore = bestMatch && typeof bestMatch.score === "number" ? bestMatch.score.toFixed(3) : "";
+          const faceError = faceAnalysis && typeof faceAnalysis.error === "string" ? faceAnalysis.error : "";
+          const analysisUpdatedAt = i.analysisUpdatedAt ? new Date(i.analysisUpdatedAt).toLocaleString() : "";
 
           const reasons = Array.isArray(i.reasons) ? i.reasons : [];
           const topReason = reasons[0] ? escapeHtml(reasons[0]) : "Event logged";
@@ -324,14 +409,31 @@ async function refreshIncidents() {
                       <span class="font-semibold">${escapeHtml(i.type || "EVENT")}</span>
                       <span class="text-slate-300/90">${escapeHtml(i.cameraId || "")}</span>
                     </span>
+                    <span class="inline-flex items-center gap-2 text-[12px] px-2 py-1 rounded-lg border ${faceStatus.className}">
+                      <span class="font-semibold">${escapeHtml(faceStatus.label)}</span>
+                    </span>
                   </div>
                   <div class="mt-1 text-sm text-slate-300 truncate">${topReason}</div>
+                  <div class="mt-1 text-xs text-slate-400 truncate">${escapeHtml(faceSummary)}</div>
                   <div class="mt-1 text-xs text-slate-500">${escapeHtml(ts)}</div>
                 </div>
               </summary>
 
               <div class="px-4 pb-4">
                 ${i.evidenceUri ? `<img src="${i.evidenceUri}" class="mt-2 w-full rounded-2xl border border-slate-800 bg-black" />` : ""}
+
+                <div class="mt-3 rounded-2xl border border-slate-800 bg-slate-950/40 p-3">
+                  <div class="flex items-center justify-between gap-3 flex-wrap">
+                    <div class="text-xs text-slate-500">Face Analysis</div>
+                    <span class="inline-flex items-center gap-2 text-[11px] px-2 py-1 rounded-lg border ${faceStatus.className}">
+                      ${escapeHtml(faceStatus.label)}
+                    </span>
+                  </div>
+                  <div class="mt-2 text-xs text-slate-300">${escapeHtml(faceSummary)}</div>
+                  ${bestMatchId ? `<div class="mt-2 text-xs text-slate-400">Best match: <span class="font-mono text-slate-200">${escapeHtml(bestMatchId)}</span> <span class="text-slate-500">score ${escapeHtml(bestMatchScore)}</span></div>` : ""}
+                  ${analysisUpdatedAt ? `<div class="mt-1 text-xs text-slate-500">Updated ${escapeHtml(analysisUpdatedAt)}</div>` : ""}
+                  ${faceError ? `<div class="mt-2 text-xs text-red-300">${escapeHtml(faceError)}</div>` : ""}
+                </div>
 
                 <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div class="rounded-2xl border border-slate-800 bg-slate-950/40 p-3">
@@ -359,6 +461,8 @@ async function refreshIncidents() {
     setError(e?.message || String(e));
     setStatus("error", "Failed loading incidents");
     incidentsEl.innerHTML = `<div class="text-red-300 text-sm">Failed to load incidents.</div>`;
+  } finally {
+    scheduleIncidentPolling(hasPending);
   }
 }
 
@@ -919,3 +1023,6 @@ refreshIncidents();
 
 // Populate camera list on load (may be blank labels until permission)
 populateCameras();
+
+
+

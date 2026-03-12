@@ -3,10 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "main": "dist/index.js",
-    "scripts": {
-      "build": "tsc -p tsconfig.json",
-      "start": "node dist/index.js"
-    },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "fabric-chaincode-node server --chaincode-address=$CHAINCODE_SERVER_ADDRESS --chaincode-id=$CHAINCODE_ID"
+  },
     "dependencies": {
       "fabric-contract-api": "^2.5.0",
       "fabric-shim": "^2.5.0"
