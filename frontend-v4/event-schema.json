@@ -1,0 +1,18 @@
+{
+    "eventId": "evt_cam01_001",
+    "cameraId": "CAM-01",
+    "ts": "2026-05-18T22:14:09Z",
+    "eventType": "TAMPER",
+    "severity": "HIGH",
+    "evidenceHash": "sha256_evidence_here",
+    "metadataHash": "sha256_metadata_here",
+    "meta": {
+      "motionScore": 0.91,
+      "ema": 0.74,
+      "burst": 0.88,
+      "tamperDetected": true,
+      "movedDetected": false,
+      "baselineReady": true,
+      "source": "webcam"
+    }
+  }
