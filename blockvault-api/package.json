@@ -1,0 +1,19 @@
+{
+  "name": "blockvault-api",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Block Vault Systems API bridge for Hyperledger Fabric Hashledger",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.5",
+    "@hyperledger/fabric-gateway": "^1.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

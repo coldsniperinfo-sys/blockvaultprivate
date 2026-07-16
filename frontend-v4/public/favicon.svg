@@ -1,0 +1,93 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-label="BlockVault"
+>
+  <defs>
+    <radialGradient id="orb" cx="50%" cy="45%" r="58%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="28%" stop-color="#ffffff" />
+      <stop offset="54%" stop-color="#dffaff" />
+      <stop offset="76%" stop-color="#64ddff" />
+      <stop offset="100%" stop-color="#139ed1" />
+    </radialGradient>
+
+    <filter
+      id="outerGlow"
+      x="-100%"
+      y="-100%"
+      width="300%"
+      height="300%"
+    >
+      <feGaussianBlur stdDeviation="6" result="blur" />
+
+      <feColorMatrix
+        in="blur"
+        type="matrix"
+        values="
+          0 0 0 0 0.13
+          0 0 0 0 0.82
+          0 0 0 0 1
+          0 0 0 0.85 0
+        "
+        result="cyanGlow"
+      />
+
+      <feMerge>
+        <feMergeNode in="cyanGlow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter
+      id="innerGlow"
+      x="-60%"
+      y="-60%"
+      width="220%"
+      height="220%"
+    >
+      <feGaussianBlur stdDeviation="2.4" result="softGlow" />
+
+      <feMerge>
+        <feMergeNode in="softGlow" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <circle
+    cx="32"
+    cy="32"
+    r="22"
+    fill="#32d5ff"
+    opacity="0.22"
+    filter="url(#outerGlow)"
+  />
+
+  <circle
+    cx="32"
+    cy="32"
+    r="15"
+    fill="url(#orb)"
+    filter="url(#innerGlow)"
+  />
+
+  <circle
+    cx="28"
+    cy="27"
+    r="5.5"
+    fill="#ffffff"
+    opacity="0.95"
+  />
+
+  <circle
+    cx="32"
+    cy="32"
+    r="14.25"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="1"
+    opacity="0.72"
+  />
+</svg>

@@ -1,114 +1,176 @@
-/**
- * camera-service — Block Vault Systems
- *
- * Supports multiple cameras via Cloudflare Tunnel URLs.
- *
- * GET /health              — service + all cameras status
- * GET /camera/:camId       — MJPEG stream for a camera
- */
+"use strict";
 
 require("dotenv").config();
+
 const express = require("express");
 const { spawn } = require("child_process");
 
-const app  = express();
+const app = express();
 const PORT = Number(process.env.HTTP_PORT || 5600);
 
-// ── Camera registry (load from env) ─────────────────────────────────────────
 function loadCameras() {
   const cameras = [];
-  let i = 1;
-  while (process.env[`CAM_${i}_ID`]) {
-    cameras.push({
-      id:   process.env[`CAM_${i}_ID`],
-      url:  process.env[`CAM_${i}_URL`],
-      user: process.env[`CAM_${i}_USER`] || "",
-      pass: process.env[`CAM_${i}_PASS`] || "",
-    });
-    i++;
+  let index = 1;
+
+  while (process.env[`CAM_${index}_ID`]) {
+    const id = String(process.env[`CAM_${index}_ID`] || "").trim();
+    const url = String(process.env[`CAM_${index}_URL`] || "").trim();
+
+    if (id && url) {
+      cameras.push({
+        id,
+        url,
+        user: String(process.env[`CAM_${index}_USER`] || "root"),
+        pass: String(process.env[`CAM_${index}_PASS`] || ""),
+      });
+    }
+
+    index += 1;
   }
-  // Fallback: single camera from legacy env vars
+
   if (cameras.length === 0 && process.env.CAM_URL) {
     cameras.push({
-      id:   "axis-cam-1",
-      url:  process.env.CAM_URL,
-      user: process.env.CAM_USER || "root",
-      pass: process.env.CAM_PASS || "",
+      id: String(process.env.CAM_ID || "CAM-01"),
+      url: String(process.env.CAM_URL),
+      user: String(process.env.CAM_USER || "root"),
+      pass: String(process.env.CAM_PASS || ""),
     });
   }
+
   return cameras;
 }
 
 const CAMERAS = loadCameras();
-console.log(`Loaded ${CAMERAS.length} camera(s):`, CAMERAS.map(c => c.id));
 
-// ── CORS ─────────────────────────────────────────────────────────────────────
 app.use((_req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
-// ── Health — checks all cameras ───────────────────────────────────────────────
-app.get("/health", async (_req, res) => {
-  const checks = await Promise.all(
-    CAMERAS.map(cam => checkCamera(cam))
-  );
-  const allOk = checks.every(c => c.ok);
-  res.json({ ok: allOk, cameras: checks });
-});
+function findCamera(cameraId) {
+  return CAMERAS.find((camera) => camera.id === cameraId);
+}
 
-function checkCamera(cam) {
+function checkCamera(camera) {
   return new Promise((resolve) => {
-    const args = [
-      "--digest", "-u", `${cam.user}:${cam.pass}`,
-      "-s", "--max-time", "5", "--head",
-      cam.url,
-    ];
-    const curl = spawn("curl", args);
-    let output = "";
-    curl.stdout.on("data", d => output += d.toString());
-    curl.stderr.on("data", () => {});
+    const curl = spawn("curl", [
+      "--digest",
+      "-u",
+      `${camera.user}:${camera.pass}`,
+      "-sS",
+      "--max-time",
+      "6",
+      "-o",
+      "/dev/null",
+      "-w",
+      "%{http_code}",
+      camera.url,
+    ]);
+
+    let statusCode = "";
+    let errorText = "";
+
+    curl.stdout.on("data", (data) => {
+      statusCode += data.toString();
+    });
+
+    curl.stderr.on("data", (data) => {
+      errorText += data.toString();
+    });
+
     curl.on("close", () => {
       resolve({
-        id:  cam.id,
-        ok:  output.includes("200"),
-        url: cam.url,
+        id: camera.id,
+        ok: statusCode.trim() === "200",
+        statusCode: statusCode.trim() || "unreachable",
+        error: errorText.trim() || undefined,
       });
     });
   });
 }
 
-// ── MJPEG stream ──────────────────────────────────────────────────────────────
-function streamCamera(cam, req, res) {
+app.get("/health", async (_req, res) => {
+  const checks = await Promise.all(CAMERAS.map(checkCamera));
+  const allOk = checks.length > 0 && checks.every((check) => check.ok);
+
+  res.status(allOk ? 200 : 503).json({
+    ok: allOk,
+    configuredCameraCount: CAMERAS.length,
+    cameras: checks,
+  });
+});
+
+app.get("/config", (_req, res) => {
+  res.json({
+    port: PORT,
+    cameras: CAMERAS.map((camera) => ({
+      id: camera.id,
+      configured: Boolean(camera.url),
+    })),
+  });
+});
+
+function streamCamera(camera, req, res) {
   const curl = spawn("curl", [
-    "--digest", "-u", `${cam.user}:${cam.pass}`,
-    "-s", cam.url,
+    "--digest",
+    "-u",
+    `${camera.user}:${camera.pass}`,
+    "-sS",
+    "--no-buffer",
+    camera.url,
   ]);
-  res.setHeader("Content-Type", "multipart/x-mixed-replace; boundary=myboundary");
-  res.setHeader("Cache-Control", "no-cache");
+
+  res.status(200);
+  res.setHeader(
+    "Content-Type",
+    "multipart/x-mixed-replace; boundary=myboundary"
+  );
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.setHeader("X-BlockVault-Camera", camera.id);
+
   curl.stdout.pipe(res);
-  curl.stderr.on("data", () => {});
-  req.on("close", () => curl.kill());
-  curl.on("error", (err) => {
-    if (!res.headersSent) res.status(500).send("Camera error: " + err.message);
+
+  curl.stderr.on("data", (data) => {
+    console.error(`[${camera.id}] Axis stream error: ${data.toString().trim()}`);
+  });
+
+  const stop = () => {
+    if (!curl.killed) curl.kill("SIGTERM");
+  };
+
+  req.on("close", stop);
+  res.on("close", stop);
+
+  curl.on("error", (error) => {
+    console.error(`[${camera.id}] Unable to start curl:`, error.message);
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Unable to start Axis stream" });
+    } else {
+      res.end();
+    }
   });
 }
 
-app.get("/camera/:camId", (req, res) => {
-  const cam = CAMERAS.find(c => c.id === req.params.camId) || CAMERAS[0];
-  if (!cam) return res.status(404).json({ error: "Camera not found" });
-  streamCamera(cam, req, res);
+app.get("/camera/:cameraId", (req, res) => {
+  const camera = findCamera(String(req.params.cameraId || ""));
+
+  if (!camera) {
+    return res.status(404).json({
+      error: "Camera not configured",
+      cameraId: req.params.cameraId,
+    });
+  }
+
+  streamCamera(camera, req, res);
 });
 
-// Backward-compatible: /camera → first camera
-app.get("/camera", (req, res) => {
-  const cam = CAMERAS[0];
-  if (!cam) return res.status(404).json({ error: "No cameras configured" });
-  streamCamera(cam, req, res);
-});
-
-// ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`camera-service running on port ${PORT}`);
-  CAMERAS.forEach(c => console.log(`  [${c.id}] ${c.url}`));
+  console.log(`BlockVault camera-service running on http://localhost:${PORT}`);
+  console.log(
+    `Configured cameras: ${CAMERAS.length ? CAMERAS.map((camera) => camera.id).join(", ") : "none"}`
+  );
 });
