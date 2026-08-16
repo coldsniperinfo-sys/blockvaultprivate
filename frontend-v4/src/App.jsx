@@ -26,7 +26,6 @@ import {
   Power,
   Maximize2,
   Minimize2,
-  X,
 } from "lucide-react";
 import "./index.css";
 import { createMotionDetector } from "./detectors/motionDetector";
@@ -128,151 +127,9 @@ function getDefaultFeatureArms() {
 }
 
 const initialCameraEvents = {
-  "CAM-01": [
-    {
-      eventId: "evt_cam01_seed_001",
-      cameraId: "CAM-01",
-      ts: "2026-05-18T09:42:12.000Z",
-      eventType: "MOTION",
-      severity: "HIGH",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0.91,
-        ema: 0.74,
-        burst: 0.88,
-        tamperDetected: false,
-        movedDetected: false,
-        baselineReady: false,
-        source: "seed",
-      },
-      status: "Anchored",
-    },
-    {
-      eventId: "evt_cam01_seed_002",
-      cameraId: "CAM-01",
-      ts: "2026-05-18T09:35:47.000Z",
-      eventType: "TAMPER",
-      severity: "WARNING",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0.33,
-        ema: 0.28,
-        burst: 0.33,
-        tamperDetected: true,
-        movedDetected: false,
-        baselineReady: true,
-        source: "seed",
-        brightness: 28.4,
-        flatness: 4.2,
-        darkRatio: 0.91,
-        tamperReason: "OCCLUDED",
-      },
-      status: "Verified",
-    },
-    {
-      eventId: "evt_cam01_seed_003",
-      cameraId: "CAM-01",
-      ts: "2026-05-18T09:21:03.000Z",
-      eventType: "MOVED",
-      severity: "WARNING",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0,
-        ema: 0,
-        burst: 0,
-        tamperDetected: false,
-        movedDetected: true,
-        baselineReady: true,
-        source: "seed",
-        movedDistance: 18,
-        movedThreshold: 14,
-      },
-      status: "Verified",
-    },
-  ],
-  "CAM-02": [
-    {
-      eventId: "evt_cam02_seed_001",
-      cameraId: "CAM-02",
-      ts: "2026-05-18T09:39:51.000Z",
-      eventType: "PERIMETER_ALERT",
-      severity: "CRITICAL",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0.64,
-        ema: 0.42,
-        burst: 0.64,
-        tamperDetected: false,
-        movedDetected: false,
-        baselineReady: true,
-        source: "seed",
-      },
-      status: "Anchored",
-    },
-    {
-      eventId: "evt_cam02_seed_002",
-      cameraId: "CAM-02",
-      ts: "2026-05-18T09:31:18.000Z",
-      eventType: "HASH_WRITE",
-      severity: "UPDATE",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0.21,
-        ema: 0.17,
-        burst: 0.21,
-        tamperDetected: false,
-        movedDetected: false,
-        baselineReady: true,
-        source: "seed",
-      },
-      status: "Committed",
-    },
-  ],
-  "CAM-03": [
-    {
-      eventId: "evt_cam03_seed_001",
-      cameraId: "CAM-03",
-      ts: "2026-05-18T09:37:16.000Z",
-      eventType: "MOTION",
-      severity: "WARNING",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0.41,
-        ema: 0.22,
-        burst: 0.41,
-        tamperDetected: false,
-        movedDetected: false,
-        baselineReady: true,
-        source: "seed",
-      },
-      status: "Anchored",
-    },
-    {
-      eventId: "evt_cam03_seed_002",
-      cameraId: "CAM-03",
-      ts: "2026-05-18T09:28:42.000Z",
-      eventType: "HASH_WRITE",
-      severity: "UPDATE",
-      evidenceHash: "pending",
-      metadataHash: "pending",
-      meta: {
-        motionScore: 0.12,
-        ema: 0.1,
-        burst: 0.12,
-        tamperDetected: false,
-        movedDetected: false,
-        baselineReady: true,
-        source: "seed",
-      },
-      status: "Committed",
-    },
-  ],
+  "CAM-01": [],
+  "CAM-02": [],
+  "CAM-03": [],
 };
 
 const cameraDetails = {
@@ -280,31 +137,16 @@ const cameraDetails = {
     name: "CAM-01",
     location: "North Facility",
     node: "Node-01",
-    status: "Live",
-    integrity: "Verified",
-    lastEvent: "2026-05-18 09:42:12",
-    firmware: "BVS Edge 4.1.2",
-    resolution: "1920 x 1080",
   },
   "CAM-02": {
     name: "CAM-02",
     location: "Perimeter",
     node: "Node-02",
-    status: "Live",
-    integrity: "Pending Review",
-    lastEvent: "2026-05-18 09:39:51",
-    firmware: "BVS Edge 4.1.2",
-    resolution: "1920 x 1080",
   },
   "CAM-03": {
     name: "CAM-03",
     location: "Warehouse",
     node: "Node-03",
-    status: "Live",
-    integrity: "Verified",
-    lastEvent: "2026-05-18 09:37:16",
-    firmware: "BVS Edge 4.1.2",
-    resolution: "1920 x 1080",
   },
 };
 
@@ -312,25 +154,30 @@ const chartBars = [72, 54, 81, 63, 77, 49, 84, 58, 69, 74, 61, 86];
 
 const navGroups = {
   main: [
-    { key: "home", label: "Dashboard", icon: Shield },
-    { key: "access", label: "Access Log", icon: FolderArchive },
-    { key: "approval", label: "Node Approval", icon: GitBranch },
-    { key: "footage", label: "Stored Footage", icon: Camera },
-    { key: "hashes", label: "Hash Ledger", icon: ShieldCheck },
-    { key: "analytics", label: "AI Analytics", icon: BarChart3 },
-    { key: "groups", label: "Camera Groups", icon: Activity },
-  ],
-  groups: [
-    { key: "north", label: "North Facility" },
-    { key: "south", label: "South Facility" },
-    { key: "perimeter", label: "Perimeter" },
-    { key: "warehouse", label: "Warehouse" },
-    { key: "hq", label: "HQ" },
+    { key: "home", label: "Overview", icon: Shield },
+    { key: "groups", label: "Cameras", icon: Camera },
+    { key: "access", label: "Events", icon: Activity },
+    { key: "hashes", label: "Evidence Ledger", icon: ShieldCheck },
   ],
 };
 
+const BLOCKVAULT_RUNTIME_HOST =
+  typeof window !== "undefined" && window.location?.hostname
+    ? window.location.hostname
+    : "localhost";
+
 const API_BASE_URL =
-  (import.meta.env.VITE_BLOCKVAULT_API_URL || "http://localhost:8081").replace(/\/$/, "");
+  (
+    import.meta.env.VITE_BLOCKVAULT_API_URL ||
+    "/bvs-api"
+  ).replace(/\/$/, "");
+
+const CAMERA_SERVICE_BASE_URL =
+  (
+    import.meta.env.VITE_CAMERA_SERVICE_URL ||
+    "/bvs-camera"
+  ).replace(/\/$/, "");
+
 
 const LEDGER_CAMERA_IDS = footage.map((camera) => camera.label);
 
@@ -411,6 +258,97 @@ function formatEventTime(ts) {
   const date = new Date(ts);
   if (Number.isNaN(date.getTime())) return ts;
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+}
+
+function clampUnit(value) {
+  return Math.min(1, Math.max(0, Number(value) || 0));
+}
+
+function getFeedFreshnessState(value) {
+  if (!Number.isFinite(value)) return "unknown";
+  if (value <= 50) return "excellent";
+  if (value <= 100) return "good";
+  if (value <= 250) return "degraded";
+  return "stale";
+}
+
+function getCameraOperationalState(cameraId, cameraHealth) {
+  const source = getCameraSource(cameraId);
+
+  if (source.kind === "offline") {
+    return {
+      label: "Offline",
+      tone: "amber",
+      relayHealth: "Unavailable",
+      ingestLabel: "Stopped",
+      frameAgeLabel: "No frame",
+      connectedClientsLabel: "0",
+      state: "offline",
+    };
+  }
+
+  if (!cameraHealth) {
+    return {
+      label: "Checking",
+      tone: "amber",
+      relayHealth: "Awaiting health",
+      ingestLabel: "Checking",
+      frameAgeLabel: "—",
+      connectedClientsLabel: "—",
+      state: "checking",
+    };
+  }
+
+  const ingestRunning = Boolean(cameraHealth.ingestRunning);
+  const hasFrame = Boolean(cameraHealth.hasFrame);
+  const frameAge = Number(cameraHealth.lastFrameAgeMs);
+  const hasFrameAge = Number.isFinite(frameAge);
+
+  if (!ingestRunning) {
+    return {
+      label: "Offline",
+      tone: "amber",
+      relayHealth: "Ingest stopped",
+      ingestLabel: "Stopped",
+      frameAgeLabel: hasFrameAge ? `${Math.round(frameAge)} ms` : "No frame",
+      connectedClientsLabel: String(cameraHealth.connectedClients ?? 0),
+      state: "offline",
+    };
+  }
+
+  if (!hasFrame) {
+    return {
+      label: "Degraded",
+      tone: "amber",
+      relayHealth: "No current frame",
+      ingestLabel: "Running",
+      frameAgeLabel: "No frame",
+      connectedClientsLabel: String(cameraHealth.connectedClients ?? 0),
+      state: "degraded",
+    };
+  }
+
+  if (hasFrameAge && frameAge > 1000) {
+    return {
+      label: "Stale",
+      tone: "amber",
+      relayHealth: "Frame stale",
+      ingestLabel: "Running",
+      frameAgeLabel: `${Math.round(frameAge)} ms`,
+      connectedClientsLabel: String(cameraHealth.connectedClients ?? 0),
+      state: "stale",
+    };
+  }
+
+  return {
+    label: "Live",
+    tone: "green",
+    relayHealth: "Healthy",
+    ingestLabel: "Running",
+    frameAgeLabel: hasFrameAge ? `${Math.round(frameAge)} ms` : "Live",
+    connectedClientsLabel: String(cameraHealth.connectedClients ?? 0),
+    state: "live",
+  };
 }
 
 function formatTimeLabel(value) {
@@ -613,37 +551,63 @@ function PillButton({ children, active = false, onClick }) {
   );
 }
 
-function TopBar({ title, searchPlaceholder = "Search security events" }) {
+function TopBar({
+  title,
+  blockchainStatus,
+  authUser,
+  onLogout,
+}) {
+  const fabricLabel = blockchainStatus?.connected
+    ? "Fabric Connected"
+    : blockchainStatus?.loading
+      ? "Fabric Connecting"
+      : "Fabric Offline";
+
+  const fabricTone = blockchainStatus?.connected
+    ? "badge-green"
+    : "badge-amber";
+
   return (
     <div className="topbar">
       <div className="topbar-inner">
         <div className="topbar-left">
-          <div className="search-wrap">
-            <Search className="search-icon" size={16} />
-            <input className="search-input" placeholder={searchPlaceholder} />
-          </div>
           <h1 className="page-title">{title}</h1>
         </div>
 
         <div className="topbar-right">
-          <button className="add-alert-btn">
-            <Plus size={16} />
-            <span>Add Alert</span>
-          </button>
+          <span className={`badge ${fabricTone}`}>
+            {fabricLabel}
+          </span>
 
-          <button className="icon-btn">
-            <Shield size={18} />
-          </button>
+          <div
+            className="operator-session-chip"
+            aria-label={`Logged in as ${
+              authUser || "admin"
+            }`}
+          >
+            <UserCircle2 size={16} />
 
-          <button className="icon-btn">
-            <Bell size={18} />
-          </button>
+            <div className="operator-session-copy">
+              <span className="operator-session-label">
+                Logged in as
+              </span>
 
-          <div className="user-chip">
-            <UserCircle2 size={26} />
-            <span>BVS</span>
-            <ChevronDown size={16} />
+              <strong>
+                {authUser || "admin"}
+              </strong>
+            </div>
           </div>
+
+          <button
+            className="operator-logout-btn"
+            type="button"
+            onClick={onLogout}
+            aria-label="Log out of BlockVault"
+            title="Log Out"
+          >
+            <Power size={15} />
+            <span>Log Out</span>
+          </button>
         </div>
       </div>
     </div>
@@ -682,21 +646,6 @@ function Sidebar({ current, setCurrent, onCloseCameraDetail }) {
         })}
       </div>
 
-      <div className="sidebar-section">
-        <div className="sidebar-label">Camera Groups</div>
-        {navGroups.groups.map((item) => (
-          <PillButton
-            key={item.key}
-            active={current === item.key}
-            onClick={() => {
-              onCloseCameraDetail();
-              setCurrent(item.key);
-            }}
-          >
-            {item.label}
-          </PillButton>
-        ))}
-      </div>
     </aside>
   );
 }
@@ -744,6 +693,7 @@ function CameraMedia({
   webcamStream = null,
   onReady,
   onError,
+  style = undefined,
 }) {
   const source = useMemo(() => getCameraSource(cameraId), [cameraId]);
   const localRef = useRef(null);
@@ -796,6 +746,7 @@ function CameraMedia({
       <img
         ref={setMediaRef}
         className={className}
+        style={style}
         src={source.url}
         crossOrigin="anonymous"
         alt={`${cameraId} live Axis feed`}
@@ -812,7 +763,7 @@ function CameraMedia({
   }
 
   if (source.kind === "webcam") {
-    return <video ref={setMediaRef} className={className} autoPlay playsInline muted />;
+    return <video ref={setMediaRef} className={className} style={style} autoPlay playsInline muted />;
   }
 
   return null;
@@ -1263,6 +1214,7 @@ function ZoneOverlay({
   drawingMode,
   zoneArmed,
   onPointerDown,
+  onCancelDrawing,
 }) {
   return (
     <div
@@ -1300,8 +1252,38 @@ function ZoneOverlay({
       )}
 
       {drawingMode && !isDrawing && (
-        <div className="zone-draw-hint">
-          Click and drag to create a restricted zone
+        <div
+          className="zone-draw-guide"
+          onPointerDown={(event) => {
+            event.stopPropagation();
+          }}
+        >
+          <div className="zone-draw-guide-copy">
+            <PencilRuler size={15} />
+            <div>
+              <strong>Draw Restricted Zone</strong>
+              <span>
+                Drag across the live feed. Release to save.
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="zone-draw-cancel"
+            onPointerDown={(event) => {
+              event.stopPropagation();
+            }}
+            onClick={onCancelDrawing}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {drawingMode && isDrawing && (
+        <div className="zone-draw-release-hint">
+          Release to save zone
         </div>
       )}
     </div>
@@ -1333,9 +1315,8 @@ function SingleCameraViewer({
   const pendingDrawRef = useRef(null);
   const zoneSetAtRef = useRef(0);
   const singleCameraFrameRef = useRef(null);
-  const fullViewVideoRef = useRef(null);
-  const focusOverlayRef = useRef(null);
   const operatorFeedbackTimerRef = useRef(null);
+  const ptzQueueRef = useRef(Promise.resolve());
 
   const activeArmsRef = useRef(featureArms || getDefaultFeatureArms());
   const onNewEventRef = useRef(onNewEvent);
@@ -1347,8 +1328,18 @@ function SingleCameraViewer({
   const [drawingMode, setDrawingMode] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawRect, setDrawRect] = useState(null);
-  const [isFocusMode, setIsFocusMode] = useState(false);
   const [isBrowserFullscreen, setIsBrowserFullscreen] = useState(false);
+  const [isMobileFocusMode, setIsMobileFocusMode] = useState(false);
+  const [showFullscreenControls, setShowFullscreenControls] = useState(false);
+  const [ptzActiveCommand, setPtzActiveCommand] = useState("");
+  const [ptzError, setPtzError] = useState("");
+  const [ptzCapabilities, setPtzCapabilities] = useState({
+    loading: true,
+    available: false,
+    panTilt: false,
+    zoom: false,
+    home: false,
+  });
   const [debugStats, setDebugStats] = useState({
     motionScore: 0,
     ema: 0,
@@ -1371,6 +1362,25 @@ function SingleCameraViewer({
   const activeArms = featureArms || getDefaultFeatureArms();
   const cameraSource = useMemo(() => getCameraSource(cameraId), [cameraId]);
 
+  const cameraServiceBaseUrl = useMemo(() => {
+    const configuredBase = String(
+      import.meta.env.VITE_CAMERA_SERVICE_URL ||
+      import.meta.env.VITE_CAMERA_BASE_URL ||
+      ""
+    ).trim();
+
+    if (configuredBase) {
+      return configuredBase.replace(/\/$/, "");
+    }
+
+    try {
+      const parsed = new URL(cameraSource.url, window.location.origin);
+      return `${parsed.protocol}//${parsed.host}`;
+    } catch {
+      return "http://localhost:5600";
+    }
+  }, [cameraSource.url]);
+
   const showOperatorFeedback = (message) => {
     setOperatorFeedback(message);
 
@@ -1387,9 +1397,218 @@ function SingleCameraViewer({
       }, 2600);
   };
 
+
+  const refreshPtzCapabilities = useCallback(async () => {
+    if (cameraSource.kind !== "mjpeg") {
+      setPtzCapabilities({
+        loading: false,
+        available: false,
+        panTilt: false,
+        zoom: false,
+        home: false,
+      });
+      setPtzError("");
+      return;
+    }
+
+    setPtzCapabilities((previous) => ({
+      ...previous,
+      loading: true,
+    }));
+    setPtzError("");
+
+    try {
+      const response = await fetch(
+        `${cameraServiceBaseUrl}/camera/${encodeURIComponent(cameraId)}/capabilities`,
+        {
+          cache: "no-store",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `PTZ capability check failed with status ${response.status}`
+        );
+      }
+
+      const payload = await response.json();
+      const ptz = payload?.ptz || {};
+
+      const available = Boolean(
+        ptz.available ??
+        ptz.supported
+      );
+
+      setPtzCapabilities({
+        loading: false,
+        available,
+        panTilt: Boolean(
+          ptz.panTilt ??
+          (ptz.pan && ptz.tilt)
+        ),
+        zoom: Boolean(ptz.zoom),
+        home: Boolean(ptz.home),
+      });
+    } catch (error) {
+      console.error("PTZ capability check failed:", error);
+
+      setPtzCapabilities({
+        loading: false,
+        available: false,
+        panTilt: false,
+        zoom: false,
+        home: false,
+      });
+
+      setPtzError(
+        error.message ||
+        "Unable to check PTZ capability"
+      );
+    }
+  }, [
+    cameraId,
+    cameraServiceBaseUrl,
+    cameraSource.kind,
+  ]);
+
+  const queuePtzRequest = useCallback(
+    (endpoint, payload = {}) => {
+      const runRequest = async () => {
+        const response = await fetch(
+          `${cameraServiceBaseUrl}/camera/${encodeURIComponent(cameraId)}/ptz/${endpoint}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        if (!response.ok) {
+          const errorPayload = await response
+            .json()
+            .catch(() => ({}));
+
+          throw new Error(
+            errorPayload.error ||
+            `PTZ request failed with status ${response.status}`
+          );
+        }
+
+        return response.json().catch(() => ({}));
+      };
+
+      const nextRequest = ptzQueueRef.current
+        .catch(() => {})
+        .then(runRequest);
+
+      ptzQueueRef.current = nextRequest;
+
+      nextRequest.catch((error) => {
+        console.error("PTZ command failed:", error);
+        setPtzError(
+          error.message ||
+          "PTZ command failed"
+        );
+        setPtzActiveCommand("");
+        showOperatorFeedback(
+          error.message ||
+          "PTZ command failed"
+        );
+      });
+
+      return nextRequest;
+    },
+    [
+      cameraId,
+      cameraServiceBaseUrl,
+    ]
+  );
+
+  const handlePtzMoveStart = (direction) => {
+    if (
+      !ptzCapabilities.available ||
+      !ptzCapabilities.panTilt
+    ) {
+      return;
+    }
+
+    setPtzError("");
+    setPtzActiveCommand(direction);
+
+    void queuePtzRequest(
+      "move",
+      {
+        direction,
+        speed: 55,
+      }
+    );
+  };
+
+  const handlePtzZoomStart = (direction) => {
+    if (
+      !ptzCapabilities.available ||
+      !ptzCapabilities.zoom
+    ) {
+      return;
+    }
+
+    setPtzError("");
+    setPtzActiveCommand(
+      direction === "in"
+        ? "zoom-in"
+        : "zoom-out"
+    );
+
+    void queuePtzRequest(
+      "zoom",
+      {
+        direction,
+        speed: 55,
+      }
+    );
+  };
+
+  const handlePtzStop = () => {
+    if (!ptzCapabilities.available) {
+      return;
+    }
+
+    setPtzActiveCommand("");
+
+    void queuePtzRequest(
+      "stop",
+      {}
+    );
+  };
+
+  const handlePtzHome = () => {
+    if (
+      !ptzCapabilities.available ||
+      !ptzCapabilities.home
+    ) {
+      return;
+    }
+
+    setPtzError("");
+    setPtzActiveCommand("home");
+
+    void queuePtzRequest(
+      "home",
+      {}
+    ).finally(() => {
+      setPtzActiveCommand("");
+    });
+  };
+
   useEffect(() => {
     activeArmsRef.current = activeArms;
   }, [activeArms]);
+
+  useEffect(() => {
+    void refreshPtzCapabilities();
+  }, [refreshPtzCapabilities]);
 
   useEffect(() => {
     onNewEventRef.current = onNewEvent;
@@ -1427,56 +1646,95 @@ function SingleCameraViewer({
   }, [cameraId, cameraReady, cameraError]);
 
   useEffect(() => {
-    if (!isFocusMode) return;
+    if (!isMobileFocusMode) {
+      return undefined;
+    }
 
-    const previousOverflow = document.body.style.overflow;
-    const focusOverlayElement = focusOverlayRef.current;
-    document.body.style.overflow = "hidden";
+    const root = document.documentElement;
+    const body = document.body;
+    const appShell =
+      singleCameraFrameRef.current?.closest(
+        ".app-shell"
+      );
+
+    const previousRootOverflow =
+      root.style.overflow;
+    const previousBodyOverflow =
+      body.style.overflow;
+    const previousRootOverscroll =
+      root.style.overscrollBehavior;
+    const previousBodyOverscroll =
+      body.style.overscrollBehavior;
+
+    root.classList.add(
+      "bvs-mobile-focus-active"
+    );
+    body.classList.add(
+      "bvs-mobile-focus-active"
+    );
+    appShell?.classList.add(
+      "bvs-mobile-focus-active"
+    );
+
+    root.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    root.style.overscrollBehavior = "none";
+    body.style.overscrollBehavior = "none";
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      root.classList.remove(
+        "bvs-mobile-focus-active"
+      );
+      body.classList.remove(
+        "bvs-mobile-focus-active"
+      );
+      appShell?.classList.remove(
+        "bvs-mobile-focus-active"
+      );
 
-      if (document.fullscreenElement === focusOverlayElement) {
-        document.exitFullscreen().catch(() => {});
-      }
+      root.style.overflow =
+        previousRootOverflow;
+      body.style.overflow =
+        previousBodyOverflow;
+      root.style.overscrollBehavior =
+        previousRootOverscroll;
+      body.style.overscrollBehavior =
+        previousBodyOverscroll;
     };
-  }, [isFocusMode]);
+  }, [isMobileFocusMode]);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
-      const isActive = Boolean(document.fullscreenElement);
+      const isActive =
+        document.fullscreenElement ===
+        singleCameraFrameRef.current;
+
       setIsBrowserFullscreen(isActive);
+      setShowFullscreenControls(false);
 
-      if (!isActive) return;
+      if (!isActive) {
+        setPtzActiveCommand("");
+        if (ptzCapabilities.available) {
+          void queuePtzRequest("stop", {});
+        }
+      }
     };
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener(
+      "fullscreenchange",
+      handleFullscreenChange
+    );
+
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "fullscreenchange",
+        handleFullscreenChange
+      );
     };
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key !== "Escape") return;
-      if (!isFocusMode) return;
-      if (document.fullscreenElement) return;
-      setIsFocusMode(false);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isFocusMode]);
-
-  useEffect(() => {
-    if (cameraSource.kind !== "webcam") return;
-    if (!isFocusMode || !fullViewVideoRef.current || !streamRef.current) return;
-
-    fullViewVideoRef.current.srcObject = streamRef.current;
-    fullViewVideoRef.current.play().catch(() => {});
-  }, [cameraSource.kind, isFocusMode, cameraReady]);
+  }, [
+    ptzCapabilities.available,
+    queuePtzRequest,
+  ]);
 
   useEffect(() => {
     let isMounted = true;
@@ -1991,8 +2249,35 @@ function SingleCameraViewer({
     setDrawRect(null);
     pendingDrawRef.current = null;
 
+    /*
+     * Keep zone editing on the true 16:9 camera frame.
+     * That preserves normalized detector coordinates on mobile
+     * instead of drawing against a letterboxed Focus View.
+     */
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(max-width: 820px)").matches &&
+      isMobileFocusMode
+    ) {
+      handlePtzStop();
+      setShowFullscreenControls(false);
+      setIsMobileFocusMode(false);
+    }
+
     showOperatorFeedback(
-      `Draw a restricted zone for ${cameraId}`
+      `Drag on ${cameraId} to mark the restricted zone`
+    );
+  };
+
+  const handleCancelZoneDraw = () => {
+    setDrawingMode(false);
+    setIsDrawing(false);
+    setDrawRect(null);
+    pendingDrawRef.current = null;
+    frameRectRef.current = null;
+
+    showOperatorFeedback(
+      "Zone drawing cancelled"
     );
   };
 
@@ -2012,43 +2297,120 @@ function SingleCameraViewer({
     );
   };
 
-  const handleOpenFocusMode = () => {
-    setIsFocusMode(true);
-  };
-
-  const handleCloseFocusMode = () => {
-    if (document.fullscreenElement === focusOverlayRef.current) {
-      document.exitFullscreen().catch(() => {});
-    }
-    setIsFocusMode(false);
-  };
-
   const handleToggleBrowserFullscreen = async () => {
-    const target = isFocusMode ? focusOverlayRef.current : singleCameraFrameRef.current;
+    const target = singleCameraFrameRef.current;
     if (!target) return;
 
+    const useInAppFocusMode =
+      typeof window !== "undefined" &&
+      (
+        window.matchMedia?.(
+          "(pointer: coarse)"
+        ).matches ||
+        window.matchMedia?.(
+          "(hover: none)"
+        ).matches ||
+        navigator.maxTouchPoints > 0 ||
+        window.innerWidth <= 820
+      );
+
+    if (isMobileFocusMode) {
+      handlePtzStop();
+      setShowFullscreenControls(false);
+
+      document.documentElement.classList.remove(
+        "bvs-mobile-focus-active"
+      );
+      document.body.classList.remove(
+        "bvs-mobile-focus-active"
+      );
+      target
+        .closest(".app-shell")
+        ?.classList.remove(
+          "bvs-mobile-focus-active"
+        );
+
+      setIsMobileFocusMode(false);
+      return;
+    }
+
+    if (useInAppFocusMode) {
+      document.documentElement.classList.add(
+        "bvs-mobile-focus-active"
+      );
+      document.body.classList.add(
+        "bvs-mobile-focus-active"
+      );
+      target
+        .closest(".app-shell")
+        ?.classList.add(
+          "bvs-mobile-focus-active"
+        );
+
+      setShowFullscreenControls(true);
+      setIsMobileFocusMode(true);
+      return;
+    }
+
     try {
+      if (document.fullscreenElement === target) {
+        handlePtzStop();
+        await document.exitFullscreen();
+        return;
+      }
+
       if (document.fullscreenElement) {
         await document.exitFullscreen();
-      } else {
-        await target.requestFullscreen();
       }
+
+      await target.requestFullscreen();
     } catch (error) {
-      console.error("Fullscreen toggle failed:", error);
+      console.error(
+        "Fullscreen toggle failed:",
+        error
+      );
+
+      showOperatorFeedback(
+        "Full screen could not be toggled"
+      );
     }
   };
+
+  const isExpandedCamera =
+    isBrowserFullscreen ||
+    isMobileFocusMode;
 
   const handleZonePointerDown = (event) => {
     if (!drawingMode) return;
 
-    const bounds = event.currentTarget.getBoundingClientRect();
+    event.preventDefault();
+
+    const surface = event.currentTarget;
+    const pointerId = event.pointerId;
+    const bounds = surface.getBoundingClientRect();
+
+    if (!bounds.width || !bounds.height) {
+      return;
+    }
+
+    surface.setPointerCapture?.(pointerId);
     frameRectRef.current = bounds;
 
-    const startX = (event.clientX - bounds.left) / bounds.width;
-    const startY = (event.clientY - bounds.top) / bounds.height;
+    const startX =
+      (event.clientX - bounds.left) /
+      bounds.width;
+    const startY =
+      (event.clientY - bounds.top) /
+      bounds.height;
 
-    const clampedStartX = Math.max(0, Math.min(1, startX));
-    const clampedStartY = Math.max(0, Math.min(1, startY));
+    const clampedStartX = Math.max(
+      0,
+      Math.min(1, startX)
+    );
+    const clampedStartY = Math.max(
+      0,
+      Math.min(1, startY)
+    );
 
     setIsDrawing(true);
 
@@ -2059,39 +2421,97 @@ function SingleCameraViewer({
       height: 0,
     };
 
-    pendingDrawRef.current = initialRect;
+    pendingDrawRef.current =
+      initialRect;
     setDrawRect(initialRect);
 
-    const handlePointerMove = (moveEvent) => {
-      const liveBounds = frameRectRef.current;
+    const cleanup = () => {
+      window.removeEventListener(
+        "pointermove",
+        handlePointerMove
+      );
+      window.removeEventListener(
+        "pointerup",
+        handlePointerUp
+      );
+      window.removeEventListener(
+        "pointercancel",
+        handlePointerCancel
+      );
+
+      try {
+        surface.releasePointerCapture?.(
+          pointerId
+        );
+      } catch {
+        // Capture may already have been released by the browser.
+      }
+    };
+
+    const handlePointerMove = (
+      moveEvent
+    ) => {
+      if (
+        moveEvent.pointerId !==
+        pointerId
+      ) {
+        return;
+      }
+
+      moveEvent.preventDefault();
+
+      const liveBounds =
+        frameRectRef.current;
+
       if (!liveBounds) return;
 
-      const currentX = (moveEvent.clientX - liveBounds.left) / liveBounds.width;
-      const currentY = (moveEvent.clientY - liveBounds.top) / liveBounds.height;
+      const currentX =
+        (moveEvent.clientX -
+          liveBounds.left) /
+        liveBounds.width;
+      const currentY =
+        (moveEvent.clientY -
+          liveBounds.top) /
+        liveBounds.height;
 
-      const clampedCurrentX = Math.max(0, Math.min(1, currentX));
-      const clampedCurrentY = Math.max(0, Math.min(1, currentY));
-
-      const deltaX = clampedCurrentX - clampedStartX;
-      const deltaY = clampedCurrentY - clampedStartY;
-      const squareSize = Math.min(Math.abs(deltaX), Math.abs(deltaY));
+      const clampedCurrentX =
+        Math.max(
+          0,
+          Math.min(1, currentX)
+        );
+      const clampedCurrentY =
+        Math.max(
+          0,
+          Math.min(1, currentY)
+        );
 
       const nextRect = {
-        x: deltaX < 0 ? clampedStartX - squareSize : clampedStartX,
-        y: deltaY < 0 ? clampedStartY - squareSize : clampedStartY,
-        width: squareSize,
-        height: squareSize,
+        x: Math.min(
+          clampedStartX,
+          clampedCurrentX
+        ),
+        y: Math.min(
+          clampedStartY,
+          clampedCurrentY
+        ),
+        width: Math.abs(
+          clampedCurrentX -
+            clampedStartX
+        ),
+        height: Math.abs(
+          clampedCurrentY -
+            clampedStartY
+        ),
       };
 
-      pendingDrawRef.current = nextRect;
+      pendingDrawRef.current =
+        nextRect;
       setDrawRect(nextRect);
     };
 
-    const handlePointerUp = () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", handlePointerUp);
-
-      const finalRect = pendingDrawRef.current;
+    const commitZone = () => {
+      const finalRect =
+        pendingDrawRef.current;
 
       setIsDrawing(false);
       setDrawingMode(false);
@@ -2100,9 +2520,24 @@ function SingleCameraViewer({
       frameRectRef.current = null;
 
       if (!finalRect) return;
-      if (finalRect.width <= 0.03 || finalRect.height <= 0.03) return;
 
-      zoneSetAtRef.current = Date.now();
+      const minimumDimension =
+        0.025;
+
+      if (
+        finalRect.width <
+          minimumDimension ||
+        finalRect.height <
+          minimumDimension
+      ) {
+        showOperatorFeedback(
+          "Zone too small — drag a larger area"
+        );
+        return;
+      }
+
+      zoneSetAtRef.current =
+        Date.now();
 
       const zonePayload = {
         id: "zone-1",
@@ -2125,13 +2560,90 @@ function SingleCameraViewer({
       );
     };
 
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", handlePointerUp);
+    const handlePointerUp = (
+      upEvent
+    ) => {
+      if (
+        upEvent.pointerId !==
+        pointerId
+      ) {
+        return;
+      }
+
+      upEvent.preventDefault();
+      cleanup();
+      commitZone();
+    };
+
+    const handlePointerCancel = (
+      cancelEvent
+    ) => {
+      if (
+        cancelEvent.pointerId !==
+        pointerId
+      ) {
+        return;
+      }
+
+      cleanup();
+      setIsDrawing(false);
+      setDrawRect(null);
+      pendingDrawRef.current = null;
+      frameRectRef.current = null;
+    };
+
+    window.addEventListener(
+      "pointermove",
+      handlePointerMove,
+      { passive: false }
+    );
+    window.addEventListener(
+      "pointerup",
+      handlePointerUp,
+      { passive: false }
+    );
+    window.addEventListener(
+      "pointercancel",
+      handlePointerCancel
+    );
   };
 
   return (
     <div className="single-camera-shell">
-      <div ref={singleCameraFrameRef} className="single-camera-frame">
+      <div
+        ref={singleCameraFrameRef}
+        className={`single-camera-frame ${
+          isMobileFocusMode
+            ? "is-mobile-focus-mode"
+            : ""
+        } ${
+          isMobileFocusMode &&
+          showFullscreenControls
+            ? "has-mobile-controls-open"
+            : ""
+        } ${
+          isMobileFocusMode &&
+          drawingMode
+            ? "is-mobile-zone-drawing"
+            : ""
+        }`}
+        style={
+          isBrowserFullscreen
+            ? {
+                width: "100vw",
+                height: "100vh",
+                maxWidth: "none",
+                maxHeight: "none",
+                aspectRatio: "auto",
+                borderRadius: 0,
+                border: 0,
+                margin: 0,
+                background: "#000",
+                overflow: "hidden",
+              }
+            : undefined
+        }
+      >
         <CameraMedia
           cameraId={cameraId}
           className="single-camera-video"
@@ -2171,14 +2683,22 @@ function SingleCameraViewer({
         <LiveHashStream cameraEvents={cameraEvents} />
 
         <div className="camera-frame-actions">
-          <button type="button" className="live-mode-btn" onClick={handleOpenFocusMode}>
-            <Maximize2 size={15} />
-            <span>Full View</span>
-          </button>
+          <button
+            type="button"
+            className="live-mode-btn"
+            onClick={handleToggleBrowserFullscreen}
+          >
+            {isExpandedCamera ? (
+              <Minimize2 size={15} />
+            ) : (
+              <Maximize2 size={15} />
+            )}
 
-          <button type="button" className="live-mode-btn" onClick={handleToggleBrowserFullscreen}>
-            {isBrowserFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
-            <span>{isBrowserFullscreen ? "Exit Fullscreen" : "Browser Fullscreen"}</span>
+            <span>
+              {isExpandedCamera
+                ? "Exit Focus"
+                : "Focus View"}
+            </span>
           </button>
         </div>
 
@@ -2188,6 +2708,229 @@ function SingleCameraViewer({
           zoneActive={debugStats.zoneTriggered}
         />
 
+        {isExpandedCamera && !showFullscreenControls && (
+          <button
+            type="button"
+            className="fullscreen-controls-reveal"
+            onClick={() => setShowFullscreenControls(true)}
+            aria-label="Show camera controls"
+            aria-expanded="false"
+          >
+            <Crosshair size={14} />
+            <span>Controls</span>
+          </button>
+        )}
+
+        {isExpandedCamera && showFullscreenControls && (
+          <div
+            className="fullscreen-control-dock-compact fullscreen-control-dock-micro"
+            role="group"
+            aria-label={`${cameraId} camera controls`}
+          >
+            <div className="fullscreen-control-header">
+              <span
+                className={`fullscreen-ptz-indicator ${
+                  ptzCapabilities.available ? "is-ready" : ""
+                }`}
+              >
+                <span aria-hidden="true" />
+                PTZ
+              </span>
+
+              <button
+                type="button"
+                className="fullscreen-controls-hide"
+                onClick={() => {
+                  handlePtzStop();
+                  setShowFullscreenControls(false);
+                }}
+                aria-label="Hide camera controls"
+              >
+                <ChevronDown size={14} />
+                <span>Hide</span>
+              </button>
+            </div>
+
+            <div className="fullscreen-control-body">
+              <div
+                className="fullscreen-ptz-pad-compact"
+                aria-label="Pan and tilt"
+              >
+                <span />
+                <button
+                  type="button"
+                  className={`fullscreen-ptz-key ${
+                    ptzActiveCommand === "up" ? "is-active" : ""
+                  }`}
+                  aria-label="Tilt camera up"
+                  disabled={!ptzCapabilities.panTilt}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    event.currentTarget.setPointerCapture?.(event.pointerId);
+                    handlePtzMoveStart("up");
+                  }}
+                  onPointerUp={handlePtzStop}
+                  onPointerCancel={handlePtzStop}
+                  onPointerLeave={handlePtzStop}
+                >
+                  ↑
+                </button>
+                <span />
+
+                <button
+                  type="button"
+                  className={`fullscreen-ptz-key ${
+                    ptzActiveCommand === "left" ? "is-active" : ""
+                  }`}
+                  aria-label="Pan camera left"
+                  disabled={!ptzCapabilities.panTilt}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    event.currentTarget.setPointerCapture?.(event.pointerId);
+                    handlePtzMoveStart("left");
+                  }}
+                  onPointerUp={handlePtzStop}
+                  onPointerCancel={handlePtzStop}
+                  onPointerLeave={handlePtzStop}
+                >
+                  ←
+                </button>
+
+                <button
+                  type="button"
+                  className="fullscreen-ptz-key fullscreen-ptz-stop-key"
+                  aria-label="Stop camera movement"
+                  disabled={!ptzCapabilities.available}
+                  onClick={handlePtzStop}
+                >
+                  STOP
+                </button>
+
+                <button
+                  type="button"
+                  className={`fullscreen-ptz-key ${
+                    ptzActiveCommand === "right" ? "is-active" : ""
+                  }`}
+                  aria-label="Pan camera right"
+                  disabled={!ptzCapabilities.panTilt}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    event.currentTarget.setPointerCapture?.(event.pointerId);
+                    handlePtzMoveStart("right");
+                  }}
+                  onPointerUp={handlePtzStop}
+                  onPointerCancel={handlePtzStop}
+                  onPointerLeave={handlePtzStop}
+                >
+                  →
+                </button>
+
+                <span />
+                <button
+                  type="button"
+                  className={`fullscreen-ptz-key ${
+                    ptzActiveCommand === "down" ? "is-active" : ""
+                  }`}
+                  aria-label="Tilt camera down"
+                  disabled={!ptzCapabilities.panTilt}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    event.currentTarget.setPointerCapture?.(event.pointerId);
+                    handlePtzMoveStart("down");
+                  }}
+                  onPointerUp={handlePtzStop}
+                  onPointerCancel={handlePtzStop}
+                  onPointerLeave={handlePtzStop}
+                >
+                  ↓
+                </button>
+                <span />
+              </div>
+
+              <div className="fullscreen-control-strip" aria-label="Lens controls">
+                <button
+                  type="button"
+                  className="fullscreen-control-chip"
+                  disabled={!ptzCapabilities.zoom}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    event.currentTarget.setPointerCapture?.(event.pointerId);
+                    handlePtzZoomStart("in");
+                  }}
+                  onPointerUp={handlePtzStop}
+                  onPointerCancel={handlePtzStop}
+                  onPointerLeave={handlePtzStop}
+                  aria-label="Zoom in"
+                >
+                  +
+                </button>
+
+                <button
+                  type="button"
+                  className="fullscreen-control-chip"
+                  disabled={!ptzCapabilities.zoom}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    event.currentTarget.setPointerCapture?.(event.pointerId);
+                    handlePtzZoomStart("out");
+                  }}
+                  onPointerUp={handlePtzStop}
+                  onPointerCancel={handlePtzStop}
+                  onPointerLeave={handlePtzStop}
+                  aria-label="Zoom out"
+                >
+                  −
+                </button>
+
+                <button
+                  type="button"
+                  className="fullscreen-control-chip fullscreen-control-home"
+                  disabled={!ptzCapabilities.home}
+                  onClick={handlePtzHome}
+                  aria-label="Return camera home"
+                >
+                  <RotateCcw size={13} />
+                  <span>Home</span>
+                </button>
+              </div>
+
+              <div className="fullscreen-control-strip" aria-label="Zone controls">
+                <button
+                  type="button"
+                  className={`fullscreen-control-chip fullscreen-control-zone ${
+                    drawingMode ? "is-active" : ""
+                  }`}
+                  onClick={() => {
+                    handlePtzStop();
+
+                    if (isMobileFocusMode) {
+                      setShowFullscreenControls(false);
+                    }
+
+                    handleEnableZoneDraw();
+                  }}
+                  disabled={!isFeatureActiveNow(activeArms, "restrictedZone")}
+                  aria-label={drawingMode ? "Draw on feed" : "Draw restricted zone"}
+                >
+                  <PencilRuler size={14} />
+                  <span>{drawingMode ? "Draw" : "Zone"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="fullscreen-control-chip fullscreen-control-zone"
+                  onClick={handleClearZone}
+                  disabled={!zone}
+                  aria-label="Clear restricted zone"
+                >
+                  <Trash2 size={14} />
+                  <span>Clear</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <ZoneOverlay
           zone={zone}
           isDrawing={isDrawing}
@@ -2195,86 +2938,10 @@ function SingleCameraViewer({
           drawingMode={drawingMode}
           zoneArmed={isFeatureActiveNow(activeArms, "restrictedZone")}
           onPointerDown={handleZonePointerDown}
+          onCancelDrawing={handleCancelZoneDraw}
         />
       </div>
 
-      {isFocusMode && (
-        <div className="focus-overlay">
-          <div ref={focusOverlayRef} className="focus-overlay-shell">
-            <div className="focus-overlay-topbar">
-              <div className="focus-overlay-copy">
-                <div className="focus-overlay-title">{cameraId} Full View</div>
-                <div className="focus-overlay-subtitle">Expanded operator view for live review and incident monitoring</div>
-              </div>
-
-              <div className="focus-overlay-actions">
-                <button type="button" className="focus-action-btn" onClick={handleToggleBrowserFullscreen}>
-                  {isBrowserFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-                  <span>{isBrowserFullscreen ? "Exit Fullscreen" : "Browser Fullscreen"}</span>
-                </button>
-
-                <button type="button" className="focus-action-btn" onClick={handleCloseFocusMode}>
-                  <X size={16} />
-                  <span>Close</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="focus-overlay-frame">
-              <CameraMedia
-                cameraId={cameraId}
-                className="single-camera-video focus-overlay-video"
-                elementRef={(element) => {
-                  fullViewVideoRef.current = element;
-                }}
-                webcamStream={webcamStream}
-                onReady={() => {}}
-                onError={() => {}}
-              />
-
-              {!cameraReady && !cameraError && (
-                <div className="camera-loading">
-                  <Camera size={28} />
-                  <span>Connecting camera...</span>
-                </div>
-              )}
-
-              {cameraError && (
-                <div className="camera-loading">
-                  <Camera size={28} />
-                  <span>{cameraError}</span>
-                </div>
-              )}
-
-              <div className="camera-overlay" />
-              <div className="camera-gridlines" />
-              <div className="single-camera-label">{cameraId}</div>
-
-              <LiveHashStream cameraEvents={cameraEvents} />
-
-              <LiveStatusPills
-                movedActive={debugStats.movedTriggered}
-                tamperActive={debugStats.tamperTriggered}
-                zoneActive={debugStats.zoneTriggered}
-              />
-
-              <ZoneOverlay
-                zone={zone}
-                isDrawing={false}
-                drawRect={null}
-                drawingMode={false}
-                zoneArmed={isFeatureActiveNow(activeArms, "restrictedZone")}
-                onPointerDown={() => {}}
-              />
-            </div>
-
-            <div className="focus-overlay-footer">
-              <span>Use Full View for operator review before investigating logs and hash events.</span>
-              <span>{isFeatureActiveNow(activeArms, "restrictedZone") ? "Restricted zone armed" : "Restricted zone inactive"}</span>
-            </div>
-          </div>
-        </div>
-      )}
 
       {operatorFeedback && (
         <div
@@ -2289,10 +2956,10 @@ function SingleCameraViewer({
             padding: "10px 14px",
             borderRadius: "10px",
             border:
-              "1px solid rgba(87, 222, 255, 0.32)",
+              "1px solid rgba(144, 112, 205, 0.30)",
             background:
-              "rgba(15, 61, 78, 0.88)",
-            color: "#bff5ff",
+              "rgba(35, 28, 48, 0.92)",
+            color: "#e5dcf5",
             boxShadow:
               "0 10px 30px rgba(0, 0, 0, 0.24)",
             fontSize: "12px",
@@ -2316,7 +2983,7 @@ function SingleCameraViewer({
         </button>
         <button className={`baseline-btn ${drawingMode ? "baseline-btn-active" : ""}`} onClick={handleEnableZoneDraw}>
           <PencilRuler size={16} />
-          <span>{drawingMode ? "Drawing Zone..." : "Draw Restricted Zone"}</span>
+          <span>{drawingMode ? "Draw on Camera" : "Draw Restricted Zone"}</span>
         </button>
         <button className="baseline-btn" onClick={handleClearZone}>
           <Trash2 size={16} />
@@ -2335,12 +3002,17 @@ function RightRail({
   events,
   zone,
   featureArms,
+  cameraHealth,
   onFeatureArmChange,
   onFeatureScheduleToggle,
   onFeatureTimeChange,
 }) {
   const details = cameraDetails[cameraId] || cameraDetails["CAM-01"];
   const cameraEvents = events[cameraId] || [];
+  const operationalState = getCameraOperationalState(
+    cameraId,
+    cameraHealth
+  );
 
   return (
     <div className="camera-detail-side compact-side">
@@ -2411,12 +3083,28 @@ function RightRail({
         )}
       </Card>
 
-      <MetricCard title="Camera State" value={details.status} subtitle="Direct device availability" />
-      <MetricCard title="Integrity" value={details.integrity} subtitle="Hash and audit verification" />
+      <MetricCard
+        title="Camera State"
+        value={operationalState.label}
+        subtitle="Live camera-service ingest state"
+      />
+      <MetricCard
+        title="Relay Health"
+        value={operationalState.relayHealth}
+        subtitle="Real ingest and frame availability"
+      />
       <MetricCard
         title="Last Event"
-        value={cameraEvents[0] ? formatEventTime(cameraEvents[0].ts) : details.lastEvent.split(" ")[1]}
-        subtitle={cameraEvents[0] ? cameraEvents[0].eventType : details.lastEvent.split(" ")[0]}
+        value={
+          cameraEvents[0]
+            ? formatEventTime(cameraEvents[0].ts)
+            : "None"
+        }
+        subtitle={
+          cameraEvents[0]
+            ? cameraEvents[0].eventType
+            : "No runtime detector events"
+        }
       />
 
       <Card title="Latest Runtime Event">
@@ -2457,31 +3145,35 @@ function RightRail({
           </div>
           <div className="status-row">
             <div className="status-label-wrap">
-              <ShieldCheck size={16} />
-              <span>Integrity</span>
+              <Activity size={16} />
+              <span>Ingest</span>
             </div>
-            <span>{details.integrity}</span>
+            <span>{operationalState.ingestLabel}</span>
           </div>
           <div className="status-row">
             <div className="status-label-wrap">
               <Clock3 size={16} />
+              <span>Frame Age</span>
+            </div>
+            <span>{operationalState.frameAgeLabel}</span>
+          </div>
+          <div className="status-row">
+            <div className="status-label-wrap">
+              <Server size={16} />
+              <span>Relay Clients</span>
+            </div>
+            <span>{operationalState.connectedClientsLabel}</span>
+          </div>
+          <div className="status-row">
+            <div className="status-label-wrap">
+              <ShieldCheck size={16} />
               <span>Last Event</span>
             </div>
-            <span>{cameraEvents[0] ? cameraEvents[0].ts : details.lastEvent}</span>
-          </div>
-          <div className="status-row">
-            <div className="status-label-wrap">
-              <Camera size={16} />
-              <span>Resolution</span>
-            </div>
-            <span>{details.resolution}</span>
-          </div>
-          <div className="status-row">
-            <div className="status-label-wrap">
-              <Activity size={16} />
-              <span>Firmware</span>
-            </div>
-            <span>{details.firmware}</span>
+            <span>
+              {cameraEvents[0]
+                ? formatEventTime(cameraEvents[0].ts)
+                : "No runtime events"}
+            </span>
           </div>
         </div>
       </Card>
@@ -2494,6 +3186,7 @@ function CameraDetailPage({
   events,
   zonesByCamera,
   featureArmsByCamera,
+  cameraHealth,
   onBack,
   onNewEvent,
   onZoneChange,
@@ -2503,6 +3196,10 @@ function CameraDetailPage({
 }) {
   const currentZone = zonesByCamera[cameraId] || null;
   const currentFeatureArms = featureArmsByCamera[cameraId] || getDefaultFeatureArms();
+  const operationalState = getCameraOperationalState(
+    cameraId,
+    cameraHealth
+  );
 
   return (
     <div className="page-content">
@@ -2516,7 +3213,9 @@ function CameraDetailPage({
             <h2 className="hero-title">{cameraId}</h2>
             <p className="hero-subtitle">Dedicated live view with real-time event monitoring</p>
           </div>
-          <Badge tone="green">Live</Badge>
+          <Badge tone={operationalState.tone}>
+            {operationalState.label}
+          </Badge>
         </div>
       </div>
 
@@ -2539,6 +3238,7 @@ function CameraDetailPage({
           events={events}
           zone={currentZone}
           featureArms={currentFeatureArms}
+          cameraHealth={cameraHealth}
           onFeatureArmChange={onFeatureArmChange}
           onFeatureScheduleToggle={onFeatureScheduleToggle}
           onFeatureTimeChange={onFeatureTimeChange}
@@ -2548,103 +3248,570 @@ function CameraDetailPage({
   );
 }
 
-function HomePage({ responseTimeMs }) {
+function SystemTopology({
+  blockchainStatus,
+  cameraHealthById,
+  featureArmsByCamera,
+  systemFlow,
+}) {
+  const configuredCameraIds = useMemo(
+    () =>
+      footage
+        .filter(
+          (camera) =>
+            getCameraSource(camera.label).kind !== "offline"
+        )
+        .map((camera) => camera.label),
+    []
+  );
+
+  const liveCameraCount = configuredCameraIds.filter((cameraId) => {
+    const health = cameraHealthById?.[cameraId];
+    return Boolean(
+      health?.configured &&
+        health?.ingestRunning &&
+        health?.hasFrame
+    );
+  }).length;
+
+  const activeDetectorCount = useMemo(() => {
+    const detectorKeys = featureArmLabels
+      .map((feature) => feature.key)
+      .filter((featureKey) => featureKey !== "zoneHashing");
+
+    return configuredCameraIds.reduce((total, cameraId) => {
+      const arms = featureArmsByCamera?.[cameraId];
+      return (
+        total +
+        detectorKeys.filter((featureKey) =>
+          getFeatureRuntimeState(arms, featureKey).activeNow
+        ).length
+      );
+    }, 0);
+  }, [configuredCameraIds, featureArmsByCamera]);
+
+  const cameraHealthy =
+    configuredCameraIds.length > 0 &&
+    liveCameraCount === configuredCameraIds.length;
+  const cameraPartial =
+    liveCameraCount > 0 && !cameraHealthy;
+  const detectionReady = activeDetectorCount > 0;
+  const evidenceActive = Boolean(systemFlow?.eventId);
+  const evidenceCaptured = Boolean(systemFlow?.hasEvidence);
+  const hashReady = Boolean(systemFlow?.hashReady);
+  const fabricConnected = Boolean(blockchainStatus?.connected);
+
+  const stages = [
+    {
+      key: "camera",
+      label: "CAMERA",
+      icon: Camera,
+      state: cameraHealthy
+        ? "healthy"
+        : cameraPartial
+          ? "degraded"
+          : "offline",
+      status: cameraHealthy
+        ? "LIVE"
+        : cameraPartial
+          ? "PARTIAL"
+          : "CHECKING",
+      detail: `${liveCameraCount}/${configuredCameraIds.length} feeds`,
+      complete: liveCameraCount > 0,
+    },
+    {
+      key: "detection",
+      label: "DETECTION",
+      icon: Activity,
+      state: detectionReady ? "healthy" : "standby",
+      status: detectionReady ? "ARMED" : "STANDBY",
+      detail: `${activeDetectorCount} active detectors`,
+      complete: detectionReady,
+    },
+    {
+      key: "evidence",
+      label: "EVIDENCE",
+      icon: FolderArchive,
+      state: evidenceActive ? "active" : "standby",
+      status: evidenceActive
+        ? evidenceCaptured
+          ? "CAPTURED"
+          : "RECEIVED"
+        : "STANDBY",
+      detail: evidenceActive
+        ? `${systemFlow.cameraId} · ${systemFlow.eventType}`
+        : "Awaiting detector event",
+      complete: evidenceActive,
+    },
+    {
+      key: "sha256",
+      label: "SHA-256",
+      icon: ShieldCheck,
+      state: hashReady
+        ? "verified"
+        : blockchainStatus?.apiReachable
+          ? "standby"
+          : "offline",
+      status: hashReady
+        ? "SEALED"
+        : blockchainStatus?.apiReachable
+          ? "READY"
+          : "UNAVAILABLE",
+      detail: hashReady
+        ? "Cryptographic digest committed"
+        : "Awaiting evidence digest",
+      complete: hashReady,
+    },
+    {
+      key: "fabric",
+      label: "FABRIC",
+      icon: GitBranch,
+      state: fabricConnected
+        ? systemFlow?.anchored
+          ? "verified"
+          : "healthy"
+        : blockchainStatus?.loading
+          ? "standby"
+          : "offline",
+      status: fabricConnected
+        ? systemFlow?.anchored
+          ? "VERIFIED"
+          : "CONNECTED"
+        : blockchainStatus?.loading
+          ? "CONNECTING"
+          : "OFFLINE",
+      detail: fabricConnected
+        ? `Channel ${blockchainStatus.channel || "bvschannel"}`
+        : blockchainStatus?.error || "Ledger unavailable",
+      complete: fabricConnected && Boolean(systemFlow?.anchored),
+    },
+  ];
+
+  const activeStage = systemFlow?.anchored
+    ? "fabric"
+    : systemFlow?.hashReady
+      ? "sha256"
+      : systemFlow?.eventId
+        ? systemFlow?.hasEvidence
+          ? "evidence"
+          : "detection"
+        : "";
+
+  return (
+    <section
+      className="system-topology"
+      data-flow-state={systemFlow?.anchored ? "anchored" : systemFlow?.eventId ? "active" : "idle"}
+      data-active-stage={activeStage || "none"}
+      aria-label="BlockVault evidence lifecycle"
+    >
+      <div className="system-topology-header">
+        <div>
+          <div className="system-topology-kicker">SYSTEM TOPOLOGY</div>
+          <h2>Evidence Integrity Pipeline</h2>
+          <p>
+            Live operational state from camera ingest through ledger verification.
+          </p>
+        </div>
+
+        <div className="system-topology-event" aria-live="polite">
+          <span className="system-topology-event-label">
+            {systemFlow?.eventId ? "LATEST LIFECYCLE" : "SYSTEM STATE"}
+          </span>
+          <strong>
+            {systemFlow?.eventId
+              ? `${systemFlow.cameraId} · ${systemFlow.eventType}`
+              : "Awaiting detector event"}
+          </strong>
+          <span>
+            {systemFlow?.anchored
+              ? "Evidence anchored and verified"
+              : systemFlow?.eventId
+                ? "Evidence lifecycle in progress"
+                : "All stages report live readiness"}
+          </span>
+        </div>
+      </div>
+
+      <div className="system-topology-rail" role="list">
+        {stages.map((stage, index) => {
+          const Icon = stage.icon;
+          const isActive = activeStage === stage.key;
+
+          return (
+            <div
+              className={`topology-stage${isActive ? " is-active" : ""}${stage.complete ? " is-complete" : ""}`}
+              data-stage={stage.key}
+              data-state={stage.state}
+              role="listitem"
+              key={stage.key}
+            >
+              {index > 0 ? (
+                <div className="topology-connector" aria-hidden="true">
+                  <span />
+                </div>
+              ) : null}
+
+              <div className="topology-stage-core">
+                <div className="topology-icon-wrap" aria-hidden="true">
+                  <Icon size={17} strokeWidth={1.8} />
+                </div>
+
+                <div className="topology-stage-copy">
+                  <span className="topology-stage-label">{stage.label}</span>
+                  <strong>{stage.status}</strong>
+                  <span className="topology-stage-detail">{stage.detail}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function HomePage({
+  blockchainStatus,
+  blockchainEvents,
+  cameraEvents,
+  cameraHealthById,
+  featureArmsByCamera,
+  feedFreshnessMs,
+  systemFlow,
+  onCameraClick,
+}) {
+  const configuredCameraCount = useMemo(
+    () =>
+      footage.filter(
+        (camera) =>
+          getCameraSource(camera.label).kind !== "offline"
+      ).length,
+    []
+  );
+
+  const ledgerRecords = useMemo(
+    () =>
+      Object.values(blockchainEvents || {}).reduce(
+        (total, records) =>
+          total + (Array.isArray(records) ? records.length : 0),
+        0
+      ),
+    [blockchainEvents]
+  );
+
+  const recentEvents = useMemo(
+    () =>
+      Object.values(cameraEvents || {})
+        .flat()
+        .sort(
+          (a, b) =>
+            new Date(b.ts).getTime() -
+            new Date(a.ts).getTime()
+        )
+        .slice(0, 6),
+    [cameraEvents]
+  );
+
   return (
     <div className="page-content">
       <div className="metrics-grid">
-        <MetricCard title="System Health" value="98.4%" subtitle="All major services nominal" />
-        <MetricCard title="New Alerts" value="27" subtitle="5 critical in the last 24h" />
-        <MetricCard title="Response Time" value={`${responseTimeMs}ms`} subtitle="Live edge detection response" />
-        <MetricCard title="Coverage" value="3" subtitle="Active cameras across all monitored zones" />
+        <MetricCard
+          title="Fabric Ledger"
+          value={
+            blockchainStatus.connected
+              ? "Connected"
+              : blockchainStatus.loading
+                ? "Connecting"
+                : "Offline"
+          }
+          subtitle={
+            blockchainStatus.connected
+              ? `Channel ${blockchainStatus.channel || "bvschannel"}`
+              : blockchainStatus.error || "Awaiting ledger connection"
+          }
+        />
+
+        <MetricCard
+          title="Evidence Records"
+          value={String(ledgerRecords)}
+          subtitle="Records loaded from the Fabric-backed ledger"
+        />
+
+        <MetricCard
+          title="Configured Feeds"
+          value={String(configuredCameraCount)}
+          subtitle="Camera sources currently configured"
+        />
+
+        <MetricCard
+          title="Live Feed Freshness"
+          value={
+            Number.isFinite(feedFreshnessMs)
+              ? `${Math.round(feedFreshnessMs)}ms`
+              : "—"
+          }
+          subtitle="Rolling average frame age"
+        />
       </div>
 
-      <div className="grid-two">
-        <Card title="System Status">
-          {[
-            ["Server A", 98, "Low"],
-            ["Server B", 75, "Medium"],
-            ["Server C", 85, "High"],
-            ["Server D", 50, "Threat"],
-            ["Server E", 100, "Nominal"],
-          ].map(([label, val, threat]) => (
-            <div key={label} className="progress-row">
-              <div className="progress-head">
-                <span>{label}</span>
-                <span className="muted">Threat: {threat}</span>
-              </div>
-              <div className="progress-track">
-                <div className="progress-fill" style={{ width: `${val}%` }} />
-              </div>
-            </div>
-          ))}
-        </Card>
-
-        <Card title="New Alerts">
-          <MiniBarChart />
-        </Card>
-      </div>
+      <SystemTopology
+        key={systemFlow?.sequence || "topology-idle"}
+        blockchainStatus={blockchainStatus}
+        cameraHealthById={cameraHealthById}
+        featureArmsByCamera={featureArmsByCamera}
+        systemFlow={systemFlow}
+      />
 
       <div className="grid-two">
-        <Card title="Security Status">
-          <MiniBarChart />
+        <Card title="Live Camera Operations">
+          <CameraWall onCameraClick={onCameraClick} />
         </Card>
 
-        <Card title="Security Overview">
-          <div className="overview-grid">
-            <div className="overview-col">
-              <div className="overview-row"><span className="muted">Incident Response</span><span>1,200,000</span></div>
-              <div className="overview-row"><span className="muted">Total Alerts</span><span>600,000</span></div>
-              <div className="overview-row"><span className="muted">Threshold Achievement</span><span>150%</span></div>
+        <Card title="Platform Status">
+          <div className="status-stack">
+            <div className="status-row">
+              <div className="status-label-wrap">
+                <Server size={16} />
+                <span>BlockVault API</span>
+              </div>
+
+              <Badge
+                tone={
+                  blockchainStatus.apiReachable
+                    ? "green"
+                    : "amber"
+                }
+              >
+                {blockchainStatus.apiReachable
+                  ? "ONLINE"
+                  : blockchainStatus.loading
+                    ? "CHECKING"
+                    : "OFFLINE"}
+              </Badge>
             </div>
-            <div className="overview-col">
-              <div className="overview-row"><span className="muted">Alerts per User</span><span>12,500</span></div>
-              <div className="overview-row"><span className="muted">Avg. Edge Response</span><span>{responseTimeMs}ms</span></div>
-              <div className="overview-row"><span className="muted">Node Reliability</span><span>99.93%</span></div>
+
+            <div className="status-row">
+              <div className="status-label-wrap">
+                <GitBranch size={16} />
+                <span>Fabric Channel</span>
+              </div>
+
+              <span>
+                {blockchainStatus.channel || "bvschannel"}
+              </span>
+            </div>
+
+            <div className="status-row">
+              <div className="status-label-wrap">
+                <ShieldCheck size={16} />
+                <span>Chaincode</span>
+              </div>
+
+              <span>
+                {blockchainStatus.chaincode || "hashledger"}
+              </span>
+            </div>
+
+            <div className="status-row">
+              <div className="status-label-wrap">
+                <Clock3 size={16} />
+                <span>Last Ledger Sync</span>
+              </div>
+
+              <span>
+                {blockchainStatus.lastSync
+                  ? formatEventTime(blockchainStatus.lastSync)
+                  : "Awaiting sync"}
+              </span>
             </div>
           </div>
         </Card>
       </div>
+
+      <Card title="Recent Detector Activity">
+        {recentEvents.length ? (
+          <div className="stack-sm">
+            {recentEvents.map((event) => (
+              <button
+                type="button"
+                key={event.eventId}
+                className="activity-item activity-button"
+                onClick={() =>
+                  onCameraClick(event.cameraId)
+                }
+              >
+                <div className="activity-top">
+                  <span className="activity-id">
+                    {event.eventType}
+                  </span>
+
+                  <Badge
+                    tone={severityTone(event.severity)}
+                  >
+                    {event.severity}
+                  </Badge>
+                </div>
+
+                <div className="overview-row">
+                  <span>{event.cameraId}</span>
+                  <span className="muted">
+                    {formatEventTime(event.ts)}
+                  </span>
+                </div>
+
+                <div className="overview-row">
+                  <span className="muted">
+                    {event.status || "Detected"}
+                  </span>
+
+                  <span className="hash-snippet">
+                    {event.eventId}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="muted">
+            No detector events have been generated in this session yet.
+          </div>
+        )}
+      </Card>
     </div>
   );
 }
 
-function AccessLogPage({ onCameraClick }) {
+function EventsPage({ events, onCameraClick }) {
+  const allEvents = useMemo(
+    () =>
+      Object.values(events || {})
+        .flat()
+        .sort(
+          (a, b) =>
+            new Date(b.ts).getTime() -
+            new Date(a.ts).getTime()
+        ),
+    [events]
+  );
+
+  const criticalCount = allEvents.filter(
+    (event) =>
+      String(event.severity).toUpperCase() === "CRITICAL"
+  ).length;
+
+  const warningCount = allEvents.filter(
+    (event) =>
+      String(event.severity).toUpperCase() === "WARNING"
+  ).length;
+
+  const anchoredCount = allEvents.filter(
+    (event) =>
+      String(event.status || "")
+        .toUpperCase()
+        .includes("ANCHOR")
+  ).length;
+
   return (
     <div className="page-content">
-      <div className="split-grid">
-        <div className="main-stack">
-          <Card title="Recent Alerts">
-            <div className="stack-sm">
-              {alerts.map((alert) => (
-                <button
-                  key={alert.id}
-                  className="activity-item activity-button"
-                  onClick={() => onCameraClick(alert.camera)}
-                >
-                  <div className="activity-top">
-                    <span className="activity-id">{alert.id}</span>
-                    <Badge tone={severityTone(alert.severity)}>{alert.severity}</Badge>
-                  </div>
-                  <div className="overview-row">
-                    <span>{alert.site}</span>
-                    <span>{alert.camera}</span>
-                  </div>
-                  <div className="overview-row muted">
-                    <span>{alert.status}</span>
-                    <span>{alert.time}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </Card>
-        </div>
+      <div className="metrics-grid">
+        <MetricCard
+          title="Session Events"
+          value={String(allEvents.length)}
+          subtitle="Detector events generated during this operator session"
+        />
 
-        <div className="side-stack">
-          <MetricCard title="Critical" value="5" subtitle="Immediate review queue" />
-          <MetricCard title="Warnings" value="14" subtitle="Operator triage active" />
-          <MetricCard title="Messages" value="8" subtitle="Non-critical updates" />
+        <MetricCard
+          title="Critical"
+          value={String(criticalCount)}
+          subtitle="Critical detector events"
+        />
+
+        <MetricCard
+          title="Warnings"
+          value={String(warningCount)}
+          subtitle="Warning-level detector events"
+        />
+
+        <MetricCard
+          title="Anchored"
+          value={String(anchoredCount)}
+          subtitle="Events confirmed as anchored"
+        />
+      </div>
+
+      <Card title="Event Stream">
+        {allEvents.length ? (
+          <div className="stack-sm">
+            {allEvents.map((event) => (
+              <button
+                type="button"
+                key={event.eventId}
+                className="activity-item activity-button"
+                onClick={() =>
+                  onCameraClick(event.cameraId)
+                }
+              >
+                <div className="activity-top">
+                  <span className="activity-id">
+                    {event.eventType}
+                  </span>
+
+                  <Badge
+                    tone={severityTone(event.severity)}
+                  >
+                    {event.severity}
+                  </Badge>
+                </div>
+
+                <div className="overview-row">
+                  <span>{event.cameraId}</span>
+                  <span className="muted">
+                    {formatEventTime(event.ts)}
+                  </span>
+                </div>
+
+                <div className="overview-row">
+                  <span className="muted">
+                    {event.status || "Detected"}
+                  </span>
+
+                  <span className="hash-snippet">
+                    {event.eventId}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="muted">
+            No detector events have been generated in this session yet.
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+function CamerasPage({ onCameraClick }) {
+  return (
+    <div className="page-content">
+      <div className="camera-detail-top">
+        <div>
+          <h2 className="hero-title">
+            Camera Operations
+          </h2>
+
+          <div className="hero-subtitle">
+            Select a live camera to open detector controls,
+            evidence activity, restricted-zone tools, PTZ, and
+            native full screen.
+          </div>
         </div>
       </div>
+
+      <Card title="Live Feeds">
+        <CameraWall onCameraClick={onCameraClick} />
+      </Card>
     </div>
   );
 }
@@ -2803,14 +3970,14 @@ function HashLedgerPage({ blockchainEvents, blockchainStatus, onCameraClick }) {
         <MetricCard title="System Running Fine" value={String(summary.heartbeatCount)} subtitle="Recurring system integrity events on-chain" />
         <MetricCard
           title="Fabric Status"
-          value={blockchainStatus.connected ? "Connected" : blockchainStatus.loading ? "Syncing" : "Offline"}
+          value={blockchainStatus.connected ? "Connected" : blockchainStatus.loading ? "Connecting" : "Offline"}
           subtitle={blockchainStatus.lastSync ? `Last sync ${formatEventTime(blockchainStatus.lastSync)}` : "Awaiting first sync"}
         />
       </div>
 
       <div className={`hash-ledger-status-banner ${blockchainStatus.connected ? "hash-ledger-status-online" : "hash-ledger-status-offline"}`}>
         <div className="hash-ledger-status-title">
-          {blockchainStatus.connected ? "Blockchain ledger live" : blockchainStatus.loading ? "Syncing blockchain ledger..." : "Blockchain ledger unavailable"}
+          {blockchainStatus.connected ? "Blockchain ledger live" : blockchainStatus.loading ? "Connecting to blockchain ledger..." : "Blockchain ledger unavailable"}
         </div>
         <div className="hash-ledger-status-copy">
           {blockchainStatus.connected
@@ -2904,41 +4071,108 @@ function GroupLanding({ title, onCameraClick }) {
   );
 }
 
-function LoginPage({ onEnter, blockchainStatus }) {
-  const [show, setShow] = useState(false);
+function LoginPage({
+  onLogin,
+  blockchainStatus,
+  authChecking,
+}) {
+  const [username, setUsername] =
+    useState("");
+  const [password, setPassword] =
+    useState("");
+  const [showPassword, setShowPassword] =
+    useState(false);
+  const [submitting, setSubmitting] =
+    useState(false);
+  const [authError, setAuthError] =
+    useState("");
 
-  const configuredCameraCount = ["CAM-01", "CAM-02"]
-    .map((cameraId) => getCameraSource(cameraId))
-    .filter((source) => source.kind === "mjpeg").length;
+  const configuredCameraCount = [
+    "CAM-01",
+    "CAM-02",
+  ]
+    .map((cameraId) =>
+      getCameraSource(cameraId)
+    )
+    .filter(
+      (source) =>
+        source.kind === "mjpeg"
+    ).length;
 
-  const fabricConnected = Boolean(blockchainStatus?.connected);
-  const apiConnected =
-    fabricConnected || Boolean(blockchainStatus?.loading);
+  const fabricConnected = Boolean(
+    blockchainStatus?.connected
+  );
+
+  const apiConnected = Boolean(
+    blockchainStatus?.apiReachable
+  );
 
   const statusItems = [
     {
       label: "Axis cameras",
       value: configuredCameraCount
-        ? `${configuredCameraCount} online`
+        ? `${configuredCameraCount} configured`
         : "Awaiting feeds",
       active: configuredCameraCount > 0,
       icon: Camera,
     },
     {
       label: "BlockVault API",
-      value: apiConnected ? "Connected" : "Offline",
+      value: apiConnected
+        ? "Reachable"
+        : blockchainStatus?.loading
+          ? "Checking"
+          : "Offline",
       active: apiConnected,
       icon: Server,
     },
     {
       label: "Fabric ledger",
       value: fabricConnected
-        ? `${blockchainStatus.channel || "bvschannel"} active`
-        : "Checking ledger",
+        ? `${
+            blockchainStatus.channel ||
+            "bvschannel"
+          } active`
+        : blockchainStatus?.loading
+          ? "Checking ledger"
+          : "Offline",
       active: fabricConnected,
       icon: GitBranch,
     },
   ];
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!username.trim() || !password) {
+      setAuthError(
+        "Enter your username and password."
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    setAuthError("");
+
+    try {
+      await onLogin({
+        username: username.trim(),
+        password,
+      });
+
+      setPassword("");
+    } catch (error) {
+      setAuthError(
+        error.message ||
+          "Unable to sign in."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const locked =
+    submitting || authChecking;
 
   return (
     <div className="login-page">
@@ -2986,12 +4220,16 @@ function LoginPage({ onEnter, blockchainStatus }) {
 
           <h1 className="login-hero-title">
             Security events,
-            <span>verified at the source.</span>
+            <span>
+              verified at the source.
+            </span>
           </h1>
 
           <p className="login-hero-copy">
-            Live Axis monitoring, edge security detection, and
-            blockchain-anchored evidence in one audit-ready operator
+            Live Axis monitoring, edge
+            security detection, and
+            blockchain-anchored evidence in
+            one audit-ready operator
             environment.
           </p>
 
@@ -3033,7 +4271,9 @@ function LoginPage({ onEnter, blockchainStatus }) {
                 >
                   <div
                     className={`login-status-icon ${
-                      item.active ? "is-online" : "is-pending"
+                      item.active
+                        ? "is-online"
+                        : "is-pending"
                     }`}
                   >
                     <Icon size={16} />
@@ -3065,27 +4305,102 @@ function LoginPage({ onEnter, blockchainStatus }) {
         <div className="login-trust-row">
           <span>Immutable audit trail</span>
           <span>Evidence integrity</span>
-          <span>Authorized operations</span>
+          <span>V5 security environment</span>
         </div>
       </section>
 
       <section
         className="login-right"
-        aria-label="Operator sign in"
+        aria-label="Secure operator sign in"
       >
+        <div
+          className="login-mobile-brand"
+          aria-label="BlockVault"
+        >
+          <div
+            className="login-brand-orb"
+            aria-hidden="true"
+          />
+
+          <div>
+            <div className="login-brand-wordmark">
+              BLOCKVAULT
+            </div>
+
+            <div className="login-brand-company">
+              BLOCK VAULT SYSTEMS
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="login-mobile-brief"
+          aria-label="BlockVault platform status"
+        >
+          <div className="login-mobile-brief-eyebrow">
+            <ShieldCheck size={13} />
+            <span>Security Operations Platform</span>
+          </div>
+
+          <h1 className="login-mobile-brief-title">
+            Security events,
+            <span> verified at the source.</span>
+          </h1>
+
+          <p className="login-mobile-brief-copy">
+            Live Axis monitoring, edge security
+            detection, and blockchain-anchored
+            evidence.
+          </p>
+
+          <div className="login-mobile-status-panel">
+            {statusItems.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  className="login-mobile-status-row"
+                  key={`mobile-${item.label}`}
+                >
+                  <div
+                    className={`login-mobile-status-icon ${
+                      item.active
+                        ? "is-online"
+                        : "is-pending"
+                    }`}
+                  >
+                    <Icon size={14} />
+                  </div>
+
+                  <div className="login-mobile-status-copy">
+                    <span className="login-mobile-status-label">
+                      {item.label}
+                    </span>
+
+                    <span className="login-mobile-status-value">
+                      <span
+                        className={`login-status-dot ${
+                          item.active
+                            ? "is-online"
+                            : "is-pending"
+                        }`}
+                      />
+                      {item.value}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="login-card-shell">
           <div
             className="login-card-glow"
             aria-hidden="true"
           />
 
-          <form
-            className="login-card"
-            onSubmit={(event) => {
-              event.preventDefault();
-              onEnter();
-            }}
-          >
+          <div className="login-card">
             <div className="login-card-header">
               <div className="login-access-mark">
                 <ShieldCheck size={20} />
@@ -3096,103 +4411,148 @@ function LoginPage({ onEnter, blockchainStatus }) {
               </div>
 
               <h2 className="login-title">
-                Secure Operator Access
+                Operator Sign In
               </h2>
 
               <p className="login-card-copy">
-                Sign in to the BlockVault command environment.
-                Operator activity and access attempts are audit
-                logged.
+                Authenticate to access live
+                camera operations, detector
+                activity, and Fabric-backed
+                evidence.
               </p>
             </div>
 
-            <div className="login-field-group">
-              <label
-                className="login-field-label"
-                htmlFor="blockvault-username"
-              >
-                Operator ID
-              </label>
-
-              <input
-                id="blockvault-username"
-                className="login-input"
-                placeholder="Enter operator ID"
-                autoComplete="username"
-              />
-            </div>
-
-            <div className="login-field-group">
-              <label
-                className="login-field-label"
-                htmlFor="blockvault-password"
-              >
-                Secure password
-              </label>
-
-              <div className="password-wrap">
-                <input
-                  id="blockvault-password"
-                  className="login-input"
-                  type={show ? "text" : "password"}
-                  placeholder="Enter password"
-                  autoComplete="current-password"
-                />
-
-                <button
-                  className="password-toggle"
-                  type="button"
-                  aria-label={
-                    show
-                      ? "Hide password"
-                      : "Show password"
-                  }
-                  onClick={() =>
-                    setShow((value) => !value)
-                  }
-                >
-                  {show ? (
-                    <EyeOff size={18} />
-                  ) : (
-                    <Eye size={18} />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="login-form-meta">
-              <label className="login-remember">
-                <input type="checkbox" />
-                <span>Trust this operations console</span>
-              </label>
-
-              <span className="login-encryption-state">
-                <span className="login-status-dot is-online" />
-                Encrypted session
-              </span>
-            </div>
-
-            <button
-              className="signin-btn"
-              type="submit"
+            <form
+              onSubmit={handleSubmit}
+              autoComplete="on"
             >
-              <span>Enter Security Operations</span>
-              <Activity size={17} />
-            </button>
+              <div className="login-field-group">
+                <label
+                  className="login-field-label"
+                  htmlFor="blockvault-username"
+                >
+                  Username
+                </label>
+
+                <input
+                  id="blockvault-username"
+                  className="login-input"
+                  type="text"
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  enterKeyHint="next"
+                  spellCheck="false"
+                  value={username}
+                  onChange={(event) => {
+                    setUsername(
+                      event.target.value
+                    );
+                    setAuthError("");
+                  }}
+                  disabled={locked}
+                />
+              </div>
+
+              <div className="login-field-group">
+                <label
+                  className="login-field-label"
+                  htmlFor="blockvault-password"
+                >
+                  Password
+                </label>
+
+                <div className="password-wrap">
+                  <input
+                    id="blockvault-password"
+                    className="login-input"
+                    type={
+                      showPassword
+                        ? "text"
+                        : "password"
+                    }
+                    autoComplete="current-password"
+                    enterKeyHint="go"
+                    value={password}
+                    onChange={(event) => {
+                      setPassword(
+                        event.target.value
+                      );
+                      setAuthError("");
+                    }}
+                    disabled={locked}
+                  />
+
+                  <button
+                    className="password-toggle"
+                    type="button"
+                    aria-label={
+                      showPassword
+                        ? "Hide password"
+                        : "Show password"
+                    }
+                    onClick={() =>
+                      setShowPassword(
+                        (previous) =>
+                          !previous
+                      )
+                    }
+                    disabled={locked}
+                  >
+                    {showPassword ? (
+                      <EyeOff size={17} />
+                    ) : (
+                      <Eye size={17} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {authError ? (
+                <div
+                  className="login-auth-error"
+                  role="alert"
+                >
+                  {authError}
+                </div>
+              ) : null}
+
+              <button
+                className="signin-btn"
+                type="submit"
+                disabled={locked}
+              >
+                <span>
+                  {authChecking
+                    ? "Validating Session"
+                    : submitting
+                      ? "Signing In"
+                      : "Sign In"}
+                </span>
+
+                <ShieldCheck size={17} />
+              </button>
+            </form>
 
             <div className="login-card-divider">
-              <span>Platform assurance</span>
+              <span>
+                Protected operator access
+              </span>
             </div>
 
             <div className="login-assurance-grid">
               <div className="login-assurance-item">
-                <ShieldCheck size={16} />
-                <span>Audit-ready controls</span>
+                <Camera size={16} />
+                <span>
+                  Live Axis monitoring
+                </span>
               </div>
 
               <div className="login-assurance-item">
                 <GitBranch size={16} />
-                <span>Fabric-backed records</span>
+                <span>
+                  Fabric-backed evidence
+                </span>
               </div>
             </div>
 
@@ -3202,21 +4562,20 @@ function LoginPage({ onEnter, blockchainStatus }) {
               </div>
 
               <p>
-                Restricted system. Unauthorized access is
-                prohibited and may be subject to monitoring,
-                recording, and review.
+                Secure operator access.
+                Authentication is required
+                to enter the BlockVault
+                environment.
               </p>
             </div>
-          </form>
+          </div>
 
           <div className="login-card-footer">
             <span>
               BLOCKVAULT SECURITY OPERATIONS
             </span>
 
-            <span>
-              v4 · Fabric verified
-            </span>
+            <span>BLOCKVAULT V5</span>
           </div>
         </div>
       </section>
@@ -3226,11 +4585,18 @@ function LoginPage({ onEnter, blockchainStatus }) {
 
 export default function App() {
   const [current, setCurrent] = useState("login");
+  const [authToken, setAuthToken] =
+    useState("");
+  const [authUser, setAuthUser] =
+    useState("");
+  const [authChecking, setAuthChecking] =
+    useState(false);
   const [selectedCamera, setSelectedCamera] = useState(null);
   const [cameraEvents, setCameraEvents] = useState(initialCameraEvents);
   const [blockchainHashesByCamera, setBlockchainHashesByCamera] = useState(() => createEmptyLedgerByCamera());
   const [blockchainStatus, setBlockchainStatus] = useState({
     loading: false,
+    apiReachable: false,
     connected: false,
     error: "",
     channel: "",
@@ -3239,74 +4605,442 @@ export default function App() {
   });
   const [zonesByCamera, setZonesByCamera] = useState(initialZonesByCamera);
   const [featureArmsByCamera, setFeatureArmsByCamera] = useState(initialFeatureArmsByCamera);
-  const [responseTimeMs, setResponseTimeMs] = useState(50);
+  const [feedFreshnessMs, setFeedFreshnessMs] = useState(null);
+  const [cameraHealthById, setCameraHealthById] = useState({});
+  const [systemFlow, setSystemFlow] = useState({
+    eventId: "",
+    cameraId: "",
+    eventType: "",
+    ts: "",
+    hasEvidence: false,
+    hashReady: false,
+    anchored: false,
+    state: "idle",
+    sequence: 0,
+  });
+  const feedFreshnessSamplesRef = useRef([]);
+
+  const clearAuthSession = useCallback(() => {
+    setAuthToken("");
+    setAuthUser("");
+    setAuthChecking(false);
+    setCurrent("login");
+    setSelectedCamera(null);
+    setBlockchainHashesByCamera(
+      createEmptyLedgerByCamera()
+    );
+    setSystemFlow({
+      eventId: "",
+      cameraId: "",
+      eventType: "",
+      ts: "",
+      hasEvidence: false,
+      hashReady: false,
+      anchored: false,
+      state: "idle",
+      sequence: 0,
+    });
+  }, []);
+
+  const handleLogin = useCallback(
+    async ({ username, password }) => {
+      const response = await fetch(
+        `${API_BASE_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          cache: "no-store",
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        }
+      );
+
+      const payload = await response
+        .json()
+        .catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          payload.error ||
+            "Unable to sign in."
+        );
+      }
+
+      if (!payload.token) {
+        throw new Error(
+          "Authentication response did not include a session token."
+        );
+      }
+
+      setAuthToken(payload.token);
+      setAuthUser(
+        payload.user?.username ||
+          username
+      );
+      setAuthChecking(false);
+      setCurrent("home");
+    },
+    []
+  );
 
   useEffect(() => {
-    const updateResponseTime = () => {
-      const startedAt = performance.now();
+    if (!authToken) {
+      setAuthChecking(false);
+      return undefined;
+    }
 
-      requestAnimationFrame(() => {
-        const frameCost = performance.now() - startedAt;
-        const edgeProcessingBudget = 46;
-        const jitter = Math.round(Math.random() * 8 - 4);
-        const nextValue = Math.max(45, Math.min(58, Math.round(edgeProcessingBudget + frameCost + jitter)));
+    let cancelled = false;
 
-        setResponseTimeMs(nextValue);
-      });
+    const validateSession = async () => {
+      setAuthChecking(true);
+
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/auth/session`,
+          {
+            headers: {
+              Authorization:
+                `Bearer ${authToken}`,
+            },
+            cache: "no-store",
+          }
+        );
+
+        const payload = await response
+          .json()
+          .catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(
+            payload.error ||
+              "Session expired."
+          );
+        }
+
+        if (cancelled) {
+          return;
+        }
+
+        setAuthUser(
+          payload.user?.username ||
+            "admin"
+        );
+
+        setCurrent((previous) =>
+          previous === "login"
+            ? "home"
+            : previous
+        );
+      } catch {
+        if (!cancelled) {
+          clearAuthSession();
+        }
+      } finally {
+        if (!cancelled) {
+          setAuthChecking(false);
+        }
+      }
     };
 
-    updateResponseTime();
+    validateSession();
 
-    const intervalId = window.setInterval(updateResponseTime, 1400);
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    authToken,
+    clearAuthSession,
+  ]);
+
+  const handleLogout = useCallback(async () => {
+    const token = authToken;
+
+    try {
+      if (token) {
+        await fetch(
+          `${API_BASE_URL}/api/auth/logout`,
+          {
+            method: "POST",
+            headers: {
+              Authorization:
+                `Bearer ${token}`,
+            },
+            cache: "no-store",
+          }
+        );
+      }
+    } catch (error) {
+      console.warn(
+        "Logout request failed:",
+        error
+      );
+    } finally {
+      clearAuthSession();
+    }
+  }, [
+    authToken,
+    clearAuthSession,
+  ]);
+
+
+  const fetchFeedFreshness = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${CAMERA_SERVICE_BASE_URL}/health`,
+        {
+          cache: "no-store",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Camera service health returned ${response.status}`
+        );
+      }
+
+      const health = await response.json();
+
+      const nextCameraHealthById = Array.isArray(
+        health?.cameras
+      )
+        ? health.cameras.reduce(
+            (acc, camera) => {
+              const cameraId = String(
+                camera?.id || ""
+              ).trim();
+
+              if (cameraId) {
+                acc[cameraId] = {
+                  configured: Boolean(
+                    camera?.configured
+                  ),
+                  ingestRunning: Boolean(
+                    camera?.ingestRunning
+                  ),
+                  connectedClients: Number(
+                    camera?.connectedClients || 0
+                  ),
+                  hasFrame: Boolean(
+                    camera?.hasFrame
+                  ),
+                  lastFrameAgeMs:
+                    Number.isFinite(
+                      camera?.lastFrameAgeMs
+                    )
+                      ? Number(
+                          camera.lastFrameAgeMs
+                        )
+                      : null,
+                };
+              }
+
+              return acc;
+            },
+            {}
+          )
+        : {};
+
+      setCameraHealthById(
+        nextCameraHealthById
+      );
+
+      const ages = Object.values(
+        nextCameraHealthById
+      )
+        .filter(
+          (camera) =>
+            camera.configured &&
+            camera.hasFrame &&
+            Number.isFinite(
+              camera.lastFrameAgeMs
+            )
+        )
+        .map((camera) =>
+          Number(camera.lastFrameAgeMs)
+        );
+
+      if (!ages.length) {
+        setFeedFreshnessMs(null);
+        return;
+      }
+
+      const currentAverage =
+        ages.reduce(
+          (total, age) => total + age,
+          0
+        ) / ages.length;
+
+      const nextSamples = [
+        ...feedFreshnessSamplesRef.current,
+        currentAverage,
+      ].slice(-30);
+
+      feedFreshnessSamplesRef.current =
+        nextSamples;
+
+      const rollingAverage =
+        nextSamples.reduce(
+          (total, sample) => total + sample,
+          0
+        ) / nextSamples.length;
+
+      setFeedFreshnessMs(rollingAverage);
+    } catch (error) {
+      console.error(
+        "Failed to read camera freshness:",
+        error
+      );
+      setFeedFreshnessMs(null);
+      setCameraHealthById({});
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchFeedFreshness();
+
+    const intervalId = window.setInterval(
+      fetchFeedFreshness,
+      137
+    );
 
     return () => {
       window.clearInterval(intervalId);
     };
-  }, []);
+  }, [fetchFeedFreshness]);
 
   const fetchBlockchainHashes = useCallback(async () => {
-    setBlockchainStatus((prev) => ({
-      ...prev,
+    setBlockchainStatus((previous) => ({
+      ...previous,
       loading: true,
       error: "",
     }));
 
     try {
-      const [healthResponse, groupedResponse] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/health`),
-        fetch(`${API_BASE_URL}/api/hashes/grouped`),
-      ]);
+      const healthResponse = await fetch(
+        `${API_BASE_URL}/api/health`,
+        {
+          cache: "no-store",
+        }
+      );
 
-      if (!healthResponse.ok) {
-        throw new Error(`Health request failed with status ${healthResponse.status}`);
+      const health =
+        await healthResponse
+          .json()
+          .catch(() => ({}));
+
+      const fabricConnected =
+        healthResponse.ok &&
+        health?.ok === true &&
+        health?.fabric === "connected";
+
+      if (!authToken) {
+        setBlockchainStatus(
+          (previous) => ({
+            ...previous,
+            loading: false,
+            apiReachable: true,
+            connected:
+              fabricConnected,
+            error:
+              fabricConnected
+                ? ""
+                : health.error ||
+                  "Fabric ledger offline",
+            channel:
+              health.channel ||
+              previous.channel ||
+              "bvschannel",
+            chaincode:
+              health.chaincode ||
+              previous.chaincode ||
+              "hashledger",
+          })
+        );
+
+        return;
+      }
+
+      const groupedResponse =
+        await fetch(
+          `${API_BASE_URL}/api/hashes/grouped`,
+          {
+            headers: {
+              Authorization:
+                `Bearer ${authToken}`,
+            },
+            cache: "no-store",
+          }
+        );
+
+      if (
+        groupedResponse.status === 401
+      ) {
+        clearAuthSession();
+        return;
       }
 
       if (!groupedResponse.ok) {
-        throw new Error(`Grouped hash request failed with status ${groupedResponse.status}`);
+        throw new Error(
+          `Grouped hash request failed with status ${groupedResponse.status}`
+        );
       }
 
-      const health = await healthResponse.json();
-      const grouped = await groupedResponse.json();
+      const grouped =
+        await groupedResponse.json();
 
-      setBlockchainHashesByCamera(buildLedgerState(grouped));
+      setBlockchainHashesByCamera(
+        buildLedgerState(grouped)
+      );
+
       setBlockchainStatus({
         loading: false,
-        connected: true,
-        error: "",
-        channel: health.channel || "bvschannel",
-        chaincode: health.chaincode || "hashledger",
-        lastSync: new Date().toISOString(),
+        apiReachable: true,
+        connected:
+          fabricConnected,
+        error:
+          fabricConnected
+            ? ""
+            : health.error ||
+              "Fabric ledger offline",
+        channel:
+          health.channel ||
+          "bvschannel",
+        chaincode:
+          health.chaincode ||
+          "hashledger",
+        lastSync:
+          new Date().toISOString(),
       });
     } catch (error) {
-      console.error("Blockchain sync failed:", error);
-      setBlockchainStatus((prev) => ({
-        ...prev,
-        loading: false,
-        connected: false,
-        error: error.message || "Unable to reach BlockVault API",
-      }));
+      console.error(
+        "Blockchain sync failed:",
+        error
+      );
+
+      setBlockchainStatus(
+        (previous) => ({
+          ...previous,
+          loading: false,
+          apiReachable:
+            error instanceof TypeError
+              ? false
+              : previous.apiReachable,
+          connected: false,
+          error:
+            error.message ||
+            `Unable to reach BlockVault API at ${API_BASE_URL}`,
+        })
+      );
     }
-  }, []);
+  }, [
+    authToken,
+    clearAuthSession,
+  ]);
 
   useEffect(() => {
     fetchBlockchainHashes();
@@ -3342,9 +5076,15 @@ export default function App() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify(payload),
       });
+
+      if (response.status === 401) {
+        clearAuthSession();
+        throw new Error("Session expired");
+      }
 
       if (!response.ok) {
         const errorPayload = await response.json().catch(() => ({}));
@@ -3373,6 +5113,35 @@ export default function App() {
         };
       });
 
+      if (!event.meta?.heartbeat) {
+        const hashReady = [
+          savedRecord.primaryHash,
+          savedRecord.evidenceHash,
+          savedRecord.metadataHash,
+        ].some(
+          (value) =>
+            Boolean(value) &&
+            String(value).toLowerCase() !== "pending"
+        );
+
+        setSystemFlow((previous) => {
+          if (previous.eventId !== savedRecord.eventId) {
+            return previous;
+          }
+
+          return {
+            ...previous,
+            cameraId: savedRecord.cameraId || previous.cameraId,
+            eventType: savedRecord.eventType || previous.eventType,
+            ts: savedRecord.ts || previous.ts,
+            hashReady,
+            anchored: true,
+            state: "anchored",
+            sequence: previous.sequence + 1,
+          };
+        });
+      }
+
       setBlockchainStatus((prev) => ({
         ...prev,
         connected: true,
@@ -3381,13 +5150,27 @@ export default function App() {
       }));
     } catch (error) {
       console.error("Blockchain write failed:", error);
+
+      if (!event.meta?.heartbeat) {
+        setSystemFlow((previous) =>
+          previous.eventId === event.eventId
+            ? {
+                ...previous,
+                anchored: false,
+                state: "error",
+                sequence: previous.sequence + 1,
+              }
+            : previous
+        );
+      }
+
       setBlockchainStatus((prev) => ({
         ...prev,
         connected: false,
         error: error.message || "Unable to write hash event to Fabric",
       }));
     }
-  }, []);
+  }, [authToken, clearAuthSession]);
 
   const openCameraDetail = (cameraId) => {
     setSelectedCamera(cameraId);
@@ -3410,6 +5193,20 @@ export default function App() {
       evidence: evidence || null,
       snapshotRef: snapshotRef || null,
     };
+
+    if (!event.meta?.heartbeat) {
+      setSystemFlow((previous) => ({
+        eventId: normalizedEvent.eventId,
+        cameraId: normalizedEvent.cameraId,
+        eventType: normalizedEvent.eventType,
+        ts: normalizedEvent.ts,
+        hasEvidence: Boolean(evidence || snapshotRef),
+        hashReady: false,
+        anchored: false,
+        state: "processing",
+        sequence: previous.sequence + 1,
+      }));
+    }
 
     setCameraEvents((prev) => {
       const existing = prev[normalizedEvent.cameraId] || [];
@@ -3480,6 +5277,10 @@ export default function App() {
             events={cameraEvents}
             zonesByCamera={zonesByCamera}
             featureArmsByCamera={featureArmsByCamera}
+            cameraHealth={
+              cameraHealthById[selectedCamera] ||
+              null
+            }
             onBack={closeCameraDetail}
             onNewEvent={handleNewCameraEvent}
             onZoneChange={handleZoneChange}
@@ -3493,16 +5294,46 @@ export default function App() {
 
     switch (current) {
       case "home":
-        return { title: "Security Dashboard", node: <HomePage responseTimeMs={responseTimeMs} /> };
+        return {
+          title: "Overview",
+          node: (
+            <HomePage
+              blockchainStatus={blockchainStatus}
+              blockchainEvents={blockchainHashesByCamera}
+              cameraEvents={cameraEvents}
+              cameraHealthById={cameraHealthById}
+              featureArmsByCamera={featureArmsByCamera}
+              feedFreshnessMs={feedFreshnessMs}
+              systemFlow={systemFlow}
+              onCameraClick={openCameraDetail}
+            />
+          ),
+        };
+
+      case "groups":
+        return {
+          title: "Cameras",
+          node: (
+            <CamerasPage
+              onCameraClick={openCameraDetail}
+            />
+          ),
+        };
+
       case "access":
-        return { title: "Access Log", node: <AccessLogPage onCameraClick={openCameraDetail} /> };
-      case "approval":
-        return { title: "Node Approval", node: <NodeApprovalPage /> };
-      case "footage":
-        return { title: "Stored Footage", node: <StoredFootagePage onCameraClick={openCameraDetail} /> };
+        return {
+          title: "Events",
+          node: (
+            <EventsPage
+              events={cameraEvents}
+              onCameraClick={openCameraDetail}
+            />
+          ),
+        };
+
       case "hashes":
         return {
-          title: "Hash Ledger",
+          title: "Evidence Ledger",
           node: (
             <HashLedgerPage
               blockchainEvents={blockchainHashesByCamera}
@@ -3511,47 +5342,119 @@ export default function App() {
             />
           ),
         };
-      case "analytics":
-        return { title: "AI Analytics", node: <AIAnalyticsPage onCameraClick={openCameraDetail} /> };
-      case "groups":
-        return { title: "Camera Groups", node: <CameraGroupsPage onCameraClick={openCameraDetail} /> };
-      case "north":
-        return { title: "North Facility", node: <GroupLanding title="North Facility" onCameraClick={openCameraDetail} /> };
-      case "south":
-        return { title: "South Facility", node: <GroupLanding title="South Facility" onCameraClick={openCameraDetail} /> };
-      case "perimeter":
-        return { title: "Perimeter", node: <GroupLanding title="Perimeter" onCameraClick={openCameraDetail} /> };
-      case "warehouse":
-        return { title: "Warehouse", node: <GroupLanding title="Warehouse" onCameraClick={openCameraDetail} /> };
-      case "hq":
-        return { title: "HQ", node: <GroupLanding title="HQ" onCameraClick={openCameraDetail} /> };
+
       default:
-        return { title: "Login", node: null };
+        return {
+          title: "Overview",
+          node: (
+            <HomePage
+              blockchainStatus={blockchainStatus}
+              blockchainEvents={blockchainHashesByCamera}
+              cameraEvents={cameraEvents}
+              cameraHealthById={cameraHealthById}
+              featureArmsByCamera={featureArmsByCamera}
+              feedFreshnessMs={feedFreshnessMs}
+              systemFlow={systemFlow}
+              onCameraClick={openCameraDetail}
+            />
+          ),
+        };
     }
   }, [
     blockchainHashesByCamera,
     blockchainStatus,
     cameraEvents,
+    cameraHealthById,
     current,
     featureArmsByCamera,
     handleNewCameraEvent,
-    responseTimeMs,
+    feedFreshnessMs,
     selectedCamera,
+    systemFlow,
     zonesByCamera,
   ]);
 
+  const feedHealth = Number.isFinite(
+    feedFreshnessMs
+  )
+    ? clampUnit(
+        (250 - feedFreshnessMs) / 250
+      )
+    : 0;
+
+  const cameraHealthRecords =
+    Object.values(cameraHealthById);
+
+  const liveCameraHealthCount =
+    cameraHealthRecords.filter(
+      (health) =>
+        health?.configured &&
+        health?.ingestRunning &&
+        health?.hasFrame
+    ).length;
+
+  const cameraHealthRatio =
+    cameraHealthRecords.length > 0
+      ? clampUnit(
+          liveCameraHealthCount /
+            cameraHealthRecords.length
+        )
+      : 0;
+
+  const appTelemetryStyle = {
+    "--feed-freshness-ms":
+      Number.isFinite(feedFreshnessMs)
+        ? Math.round(feedFreshnessMs)
+        : 0,
+    "--feed-health": feedHealth,
+    "--fabric-health":
+      blockchainStatus.connected ? 1 : 0,
+    "--api-health":
+      blockchainStatus.apiReachable ? 1 : 0,
+    "--camera-health":
+      cameraHealthRatio,
+  };
+
   if (current === "login") {
-    return <LoginPage onEnter={() => setCurrent("home")} blockchainStatus={blockchainStatus} />;
+    return (
+      <LoginPage
+        onLogin={handleLogin}
+        blockchainStatus={blockchainStatus}
+        authChecking={authChecking}
+      />
+    );
   }
 
   return (
-    <div className="app-shell">
+    <div
+      className="app-shell"
+      style={appTelemetryStyle}
+      data-fabric-state={
+        blockchainStatus.connected
+          ? "connected"
+          : blockchainStatus.loading
+            ? "connecting"
+            : "offline"
+      }
+      data-api-state={
+        blockchainStatus.apiReachable
+          ? "online"
+          : blockchainStatus.loading
+            ? "checking"
+            : "offline"
+      }
+      data-feed-state={getFeedFreshnessState(
+        feedFreshnessMs
+      )}
+    >
       <div className="app-layout">
         <Sidebar current={current} setCurrent={setCurrent} onCloseCameraDetail={closeCameraDetail} />
         <main className="main-area">
           <TopBar
             title={page.title}
-            searchPlaceholder={current === "access" ? "Search Security" : "Search security events"}
+            blockchainStatus={blockchainStatus}
+            authUser={authUser}
+            onLogout={handleLogout}
           />
           {page.node}
         </main>
