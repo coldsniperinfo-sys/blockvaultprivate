@@ -50,9 +50,9 @@ const nodes = [
 ];
 
 const footage = [
-  { id: 1, label: "CAM-01", offline: false, location: "North Facility", node: "Node-01" },
-  { id: 2, label: "CAM-02", offline: false, location: "Perimeter", node: "Node-02" },
-  { id: 3, label: "CAM-03", offline: false, location: "Warehouse", node: "Node-03" },
+  { id: 1, label: "CAM-01", displayName: "Axis Camera", offline: false, location: "North Facility", node: "Node-01" },
+  { id: 2, label: "CAM-02", displayName: "Axis Night Vision", offline: false, location: "Perimeter", node: "Node-02" },
+  { id: 3, label: "CAM-03", displayName: "Andrew Camera", offline: false, location: "Warehouse", node: "Node-03" },
 ];
 
 const initialZonesByCamera = {
@@ -135,18 +135,18 @@ const initialCameraEvents = {
 const cameraDetails = {
   "CAM-01": {
     name: "CAM-01",
-    location: "North Facility",
-    node: "Node-01",
+    location: "Axis Camera",
+    node: "Axis Camera",
   },
   "CAM-02": {
     name: "CAM-02",
-    location: "Perimeter",
-    node: "Node-02",
+    location: "Axis Night Vision",
+    node: "Axis Night Vision",
   },
   "CAM-03": {
     name: "CAM-03",
-    location: "Warehouse",
-    node: "Node-03",
+    location: "Andrew Camera",
+    node: "Andrew Camera",
   },
 };
 
@@ -892,7 +892,7 @@ function CameraWall({ selectable = false, onCameraClick = null }) {
 
             <div className="camera-overlay" />
             <div className="camera-gridlines" />
-            <div className="camera-label">{cam.label}</div>
+            <div className="camera-label">{cam.label} — {cam.displayName}</div>
             <div className="camera-status">{state.error ? "Unavailable" : state.ready ? "Live feed" : source.label}</div>
             <div className="camera-source-badge">{source.label}</div>
 
@@ -3139,7 +3139,7 @@ function RightRail({
           <div className="status-row">
             <div className="status-label-wrap">
               <Server size={16} />
-              <span>Node</span>
+              <span>Camera</span>
             </div>
             <span>{details.node}</span>
           </div>
@@ -4062,7 +4062,7 @@ function GroupLanding({ title, onCameraClick }) {
         </div>
 
         <div className="side-stack">
-          <MetricCard title="Active Cameras" value="3" subtitle={`Coverage across ${title}`} />
+          <MetricCard title="Active Cameras" value={String(footage.length)} subtitle={`Coverage across ${title}`} />
           <MetricCard title="Open Alerts" value="6" subtitle="2 critical, 1 escalated" />
           <MetricCard title="Operator State" value="Online" subtitle="Primary desk actively monitoring" />
         </div>
@@ -4087,12 +4087,9 @@ function LoginPage({
   const [authError, setAuthError] =
     useState("");
 
-  const configuredCameraCount = [
-    "CAM-01",
-    "CAM-02",
-  ]
-    .map((cameraId) =>
-      getCameraSource(cameraId)
+  const configuredCameraCount = footage
+    .map((camera) =>
+      getCameraSource(camera.label)
     )
     .filter(
       (source) =>
@@ -4109,7 +4106,7 @@ function LoginPage({
 
   const statusItems = [
     {
-      label: "Axis cameras",
+      label: "Cameras",
       value: configuredCameraCount
         ? `${configuredCameraCount} configured`
         : "Awaiting feeds",
