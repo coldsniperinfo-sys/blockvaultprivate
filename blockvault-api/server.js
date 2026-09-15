@@ -19,6 +19,28 @@ app.use(express.json({ limit: "3mb" }));
 
 const PORT = Number(process.env.PORT || 8081);
 
+const ADMIN_USERNAME = String(
+  process.env.BLOCKVAULT_ADMIN_USERNAME || ""
+).trim();
+
+const ADMIN_PASSWORD_SALT = String(
+  process.env.BLOCKVAULT_ADMIN_PASSWORD_SALT || ""
+).trim();
+
+const ADMIN_PASSWORD_HASH = String(
+  process.env.BLOCKVAULT_ADMIN_PASSWORD_HASH || ""
+).trim();
+
+const AUTH_SESSION_TTL_MS = Math.max(
+  15 * 60 * 1000,
+  Number(
+    process.env.BLOCKVAULT_AUTH_SESSION_TTL_MS ||
+      12 * 60 * 60 * 1000
+  )
+);
+
+const authSessions = new Map();
+
 function resolveFabricTestNetwork() {
   const candidates = [
     process.env.FABRIC_TEST_NETWORK,
@@ -431,7 +453,244 @@ function groupByCamera(records) {
   }, {});
 }
 
-app.get("/api/config", (_req, res) => {
+function isAuthConfigured() {
+  return Boolean(
+    ADMIN_USERNAME &&
+      ADMIN_PASSWORD_SALT &&
+      ADMIN_PASSWORD_HASH
+  );
+}
+
+function safeTextEqual(left, right) {
+  const leftDigest = crypto
+    .createHash("sha256")
+    .update(String(left))
+    .digest();
+
+  const rightDigest = crypto
+    .createHash("sha256")
+    .update(String(right))
+    .digest();
+
+  return crypto.timingSafeEqual(
+    leftDigest,
+    rightDigest
+  );
+}
+
+function passwordMatches(password) {
+  if (!isAuthConfigured()) {
+    return false;
+  }
+
+  try {
+    const calculated = crypto
+      .scryptSync(
+        String(password),
+        Buffer.from(
+          ADMIN_PASSWORD_SALT,
+          "hex"
+        ),
+        64
+      )
+      .toString("hex");
+
+    const suppliedBuffer = Buffer.from(
+      calculated,
+      "hex"
+    );
+
+    const expectedBuffer = Buffer.from(
+      ADMIN_PASSWORD_HASH,
+      "hex"
+    );
+
+    if (
+      suppliedBuffer.length === 0 ||
+      suppliedBuffer.length !==
+        expectedBuffer.length
+    ) {
+      return false;
+    }
+
+    return crypto.timingSafeEqual(
+      suppliedBuffer,
+      expectedBuffer
+    );
+  } catch {
+    return false;
+  }
+}
+
+function pruneExpiredSessions() {
+  const now = Date.now();
+
+  for (const [token, session] of authSessions) {
+    if (
+      !session ||
+      session.expiresAt <= now
+    ) {
+      authSessions.delete(token);
+    }
+  }
+}
+
+function getBearerToken(req) {
+  const header = String(
+    req.headers.authorization || ""
+  ).trim();
+
+  if (
+    !header.toLowerCase().startsWith(
+      "bearer "
+    )
+  ) {
+    return "";
+  }
+
+  return header.slice(7).trim();
+}
+
+function getValidSession(token) {
+  if (!token) {
+    return null;
+  }
+
+  pruneExpiredSessions();
+
+  const session = authSessions.get(token);
+
+  if (!session) {
+    return null;
+  }
+
+  if (session.expiresAt <= Date.now()) {
+    authSessions.delete(token);
+    return null;
+  }
+
+  return session;
+}
+
+function requireAuth(req, res, next) {
+  const token = getBearerToken(req);
+  const session = getValidSession(token);
+
+  if (!session) {
+    return res.status(401).json({
+      ok: false,
+      error: "Authentication required",
+    });
+  }
+
+  req.auth = {
+    token,
+    username: session.username,
+    expiresAt: session.expiresAt,
+  };
+
+  next();
+}
+
+app.post("/api/auth/login", (req, res) => {
+  res.set("Cache-Control", "no-store");
+
+  if (!isAuthConfigured()) {
+    return res.status(503).json({
+      ok: false,
+      error:
+        "Pilot authentication is not configured",
+    });
+  }
+
+  const username = String(
+    req.body?.username || ""
+  ).trim();
+
+  const password = String(
+    req.body?.password || ""
+  );
+
+  const usernameValid =
+    username.length > 0 &&
+    safeTextEqual(
+      username,
+      ADMIN_USERNAME
+    );
+
+  const passwordValid =
+    password.length > 0 &&
+    passwordMatches(password);
+
+  if (
+    !usernameValid ||
+    !passwordValid
+  ) {
+    return res.status(401).json({
+      ok: false,
+      error: "Invalid username or password",
+    });
+  }
+
+  pruneExpiredSessions();
+
+  const token = crypto
+    .randomBytes(32)
+    .toString("hex");
+
+  const expiresAt =
+    Date.now() + AUTH_SESSION_TTL_MS;
+
+  authSessions.set(token, {
+    username: ADMIN_USERNAME,
+    expiresAt,
+  });
+
+  return res.json({
+    ok: true,
+    token,
+    user: {
+      username: ADMIN_USERNAME,
+      role: "administrator",
+    },
+    expiresAt: new Date(
+      expiresAt
+    ).toISOString(),
+  });
+});
+
+app.get(
+  "/api/auth/session",
+  requireAuth,
+  (req, res) => {
+    res.set("Cache-Control", "no-store");
+
+    res.json({
+      ok: true,
+      user: {
+        username: req.auth.username,
+        role: "administrator",
+      },
+      expiresAt: new Date(
+        req.auth.expiresAt
+      ).toISOString(),
+    });
+  }
+);
+
+app.post(
+  "/api/auth/logout",
+  requireAuth,
+  (req, res) => {
+    authSessions.delete(
+      req.auth.token
+    );
+
+    res.status(204).end();
+  }
+);
+
+app.get("/api/config", requireAuth, (_req, res) => {
   res.json({
     port: PORT,
     fabricTestNetwork:
@@ -476,6 +735,8 @@ app.get("/api/health", async (_req, res) => {
     });
   }
 });
+
+app.use("/api/hashes", requireAuth);
 
 app.get("/api/hashes", async (_req, res) => {
   try {
@@ -682,5 +943,13 @@ app.listen(PORT, () => {
 
   console.log(
     `Fabric private key: ${KEY_PATH}`
+  );
+
+  console.log(
+    `Pilot authentication: ${
+      isAuthConfigured()
+        ? `configured for ${ADMIN_USERNAME}`
+        : "NOT CONFIGURED"
+    }`
   );
 });

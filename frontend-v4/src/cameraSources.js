@@ -1,7 +1,7 @@
 const trimTrailingSlash = (value = "") => String(value || "").trim().replace(/\/$/, "");
 
 const CAMERA_SERVICE_BASE_URL = trimTrailingSlash(
-  import.meta.env.VITE_CAMERA_SERVICE_URL || ""
+  import.meta.env.VITE_CAMERA_SERVICE_URL || "/bvs-camera"
 );
 
 const AXIS_CAMERA_IDS = new Set(
